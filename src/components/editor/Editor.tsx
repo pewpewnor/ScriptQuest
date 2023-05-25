@@ -36,8 +36,6 @@ const Editor: FC<EditorProps> = (props: EditorProps) => {
 			return;
 		}
 
-		const safe = true;
-
 		setCode(input);
 	};
 
