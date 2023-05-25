@@ -1,10 +1,15 @@
 "use client";
-import { FC } from "react";
+import Navbar from "@/components/navbar/Navbar";
+import { FC, useEffect } from "react";
 
 interface DashboardProps {}
 
 const Dashboard: FC<DashboardProps> = (props: DashboardProps) => {
-	return <div>Dashboard</div>;
+	return (
+		<>
+			<Navbar leaveWarning={true} /> <div></div>
+		</>
+	);
 };
 
 export default Dashboard;
