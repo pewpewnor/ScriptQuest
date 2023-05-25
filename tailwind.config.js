@@ -14,6 +14,11 @@ module.exports = {
 			colors: {
 				lime: "#d9f24f",
 				electric: "#4f26e9",
+				dark: "#222222",
+				clay: "#F2E8DE",
+			},
+			screens: {
+				mid: "1400px",
 			},
 		},
 	},
