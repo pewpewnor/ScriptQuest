@@ -7,7 +7,7 @@ const Navbar: FC<NavbarProps> = (props: NavbarProps) => {
 	return (
 		<div className="absolute top-0 flex h-12 w-full items-center justify-around bg-black font-vt text-2xl text-clay">
 			<Link
-				href="/home"
+				href="/"
 				className="hover:text-white hover:underline active:text-white active:underline"
 			>
 				HOME
