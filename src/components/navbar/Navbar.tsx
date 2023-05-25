@@ -8,7 +8,7 @@ interface NavbarProps {
 const Navbar: FC<NavbarProps> = (props: NavbarProps) => {
 	if (props.leaveWarning) {
 		return (
-			<div className="absolute top-0 flex h-12 w-full items-center justify-around bg-black font-vt text-2xl text-red-400">
+			<div className="absolute top-0 flex  w-full items-center justify-around bg-black px-14 text-center font-vt text-2xl text-red-400 sm:h-12 sm:px-0 sm:text-left">
 				<p>WARNING: LEAVING THIS PAGE WILL RESULT IN LOSS OF DATA</p>
 			</div>
 		);
