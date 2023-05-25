@@ -13,13 +13,13 @@ const Navbar: FC<NavbarProps> = (props: NavbarProps) => {
 				HOME
 			</Link>
 			<Link
-				href="/dasboard"
+				href="/dashboard"
 				className="hover:text-white hover:underline active:text-white active:underline"
 			>
 				DASHBOARD
 			</Link>
 			<Link
-				href="/pupose"
+				href="/purpose"
 				className="hover:text-white hover:underline active:text-white active:underline"
 			>
 				PURPOSE
