@@ -20,7 +20,6 @@ const RootLayout: FC<RootLayoutProps> = (props: RootLayoutProps) => {
 		<html lang="en">
 			<body className={inter.className}>
 				<div className="paper-grid min-h-screen bg-dark">
-					<Navbar />
 					{props.children}
 				</div>
 			</body>
