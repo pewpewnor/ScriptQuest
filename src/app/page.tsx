@@ -5,9 +5,9 @@ interface WelcomePageProps {}
 
 const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 	return (
-		<div className="min-h-screen">
+		<div className="">
 			{/* Hero */}
-			<div className="paper-grid flex h-screen flex-col items-center justify-center gap-24 bg-dark px-8 pt-8 md:px-16 mid:flex-row mid:gap-0">
+			<div className="flex h-screen flex-col items-center justify-center gap-24 px-8 pt-8 md:px-16 mid:flex-row mid:gap-0">
 				<div className="md:w-6/7 flex w-full flex-col gap-10 px-0 sm:px-12 mid:w-full">
 					<p className="w-full text-center text-xl font-bold text-electric underline sm:text-left md:text-2xl">
 						LET&apos;S LEARN HOW TO
@@ -27,7 +27,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 
 				<Image
 					src="/hero-image.png"
-					className="rounded-xl border-2 border-lime shadow-lg"
+					className="rounded-xl border-2 shadow-lg duration-200 ease-in hover:scale-105 hover:cursor-pointer hover:border-lime"
 					width={650}
 					height={650}
 					alt="hero"
