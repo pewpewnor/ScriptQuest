@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { FC, ReactNode } from "react";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -9,14 +10,16 @@ export const metadata = {
 		"A website designed for programming aspirants to script and create text-based adventure games",
 };
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+interface RootLayoutProps {
+	children: ReactNode;
+}
+
+const RootLayout: FC<RootLayoutProps> = (props: RootLayoutProps) => {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>{props.children}</body>
 		</html>
 	);
-}
+};
+
+export default RootLayout;
