@@ -23,18 +23,18 @@ const Navbar: FC<NavbarProps> = (props: NavbarProps) => {
 				HOME
 			</Link>
 			<Link
-				href="/dashboard"
+				href="/myscripts"
 				rel="noopener noreferrer"
 				target="_blank"
 				className="hover:text-white hover:underline active:text-white active:underline"
 			>
-				DASHBOARD
+				MY SCRIPTS
 			</Link>
 			<Link
-				href="/purpose"
+				href="/howtouse"
 				className="hover:text-white hover:underline active:text-white active:underline"
 			>
-				PURPOSE
+				HOW TO USE
 			</Link>
 		</div>
 	);

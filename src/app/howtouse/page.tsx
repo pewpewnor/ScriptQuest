@@ -1,9 +1,9 @@
 import Navbar from "@/components/navbar/Navbar";
 import { FC } from "react";
 
-interface PurposeProps {}
+interface HowToUseProps {}
 
-const Purpose: FC<PurposeProps> = (props: PurposeProps) => {
+const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 	return (
 		<>
 			<Navbar leaveWarning={false} /> <div></div>
@@ -11,4 +11,4 @@ const Purpose: FC<PurposeProps> = (props: PurposeProps) => {
 	);
 };
 
-export default Purpose;
+export default HowToUse;
