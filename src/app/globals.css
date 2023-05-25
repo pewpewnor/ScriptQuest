@@ -3,3 +3,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.paper-grid {
+	background-size: 95px 95px;
+	background-image: linear-gradient(to right, black 1px, transparent 1px),
+		linear-gradient(to bottom, black 1px, transparent 1px);
+}
