@@ -11,6 +11,10 @@ module.exports = {
 				vt: ["'VT323'"],
 				press: ["'Press Start 2P'"],
 			},
+			colors: {
+				lime: "#d9f24f",
+				electric: "#4f26e9",
+			},
 		},
 	},
 	plugins: [],
