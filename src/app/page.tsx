@@ -27,6 +27,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 
 				<Image
 					src="/hero-image.png"
+					className="rounded-xl border-2 border-lime shadow-lg"
 					width={650}
 					height={650}
 					alt="hero"
