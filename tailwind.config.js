@@ -18,7 +18,7 @@ module.exports = {
 				clay: "#F2E8DE",
 			},
 			screens: {
-				mid: "1400px",
+				halfxl: "1475px",
 			},
 		},
 	},
