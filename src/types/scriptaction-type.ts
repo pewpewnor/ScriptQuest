@@ -5,12 +5,14 @@ enum ScriptActionType {
 	DELETE,
 	RENAME,
 	EDIT,
+	SAVECODE,
 }
 
 interface ScriptActionPayload {
 	title?: string;
 	newTitle?: string;
 	newScript?: ScriptData;
+	code?: string;
 }
 
 interface ScriptAction {

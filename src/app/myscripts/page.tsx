@@ -16,6 +16,9 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 	function createScriptReducer(scripts: ScriptData[], action: ScriptAction) {
 		switch (action.type) {
 			case ScriptActionType.ADD:
+				if (action.payload.newScript === undefined) {
+					throw new Error("Error during edit action");
+				}
 				return [
 					{
 						...(action.payload.newScript
@@ -25,11 +28,17 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 					...scripts,
 				];
 			case ScriptActionType.DELETE:
+				if (action.payload.title === undefined) {
+					throw new Error("Error during edit action");
+				}
 				return scripts.filter(
 					(script) => script.title !== action.payload.title
 				);
 			case ScriptActionType.RENAME:
-				if (action.payload.newTitle === undefined) {
+				if (
+					action.payload.newTitle === undefined ||
+					action.payload.title === undefined
+				) {
 					throw new Error("Error during edit action");
 				}
 				return scripts.map((script) =>
@@ -38,7 +47,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 								...script,
 								title: action.payload.newTitle
 									? action.payload.newTitle
-									: "error during rename",
+									: script.title,
 						  }
 						: script
 				);
@@ -52,6 +61,25 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 					)
 				);
 				return scripts;
+			case ScriptActionType.SAVECODE:
+				if (
+					action.payload.code === undefined ||
+					action.payload.title === undefined
+				) {
+					throw new Error("Error during edit action");
+				}
+
+				return scripts.map((script) => {
+					if (script.title === action.payload.title) {
+						return {
+							...script,
+							code: action.payload.code
+								? action.payload.code
+								: script.code,
+						};
+					}
+					return script;
+				});
 			default:
 				return scripts;
 		}
@@ -152,7 +180,15 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 		);
 	}
 
-	return <EditorPage dispatchScripts={dispatchScripts} {...selectedPage} />;
+	return (
+		<EditorPage
+			dispatchScripts={dispatchScripts}
+			{...selectedPage}
+			closeEditor={() => {
+				setSelectedPage(null);
+			}}
+		/>
+	);
 };
 
 export default MyScripts;
