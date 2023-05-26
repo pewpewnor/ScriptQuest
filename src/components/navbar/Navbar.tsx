@@ -18,7 +18,7 @@ const Navbar: FC<NavbarProps> = (props: NavbarProps) => {
 				target="_blank"
 				className="hover:text-white hover:underline active:text-white active:underline"
 			>
-				MY SCRIPTS
+				MY GAMES
 			</Link>
 			<Link
 				href="/howtouse"
