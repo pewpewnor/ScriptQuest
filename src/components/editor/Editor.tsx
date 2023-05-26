@@ -49,7 +49,7 @@ const Editor: FC<EditorProps> = (props: EditorProps) => {
 		<div className="flex">
 			<div className="">{lineNumbers}</div>
 			<textarea
-				className="flex-grow resize-none rounded-none bg-black bg-opacity-20 text-white outline-none"
+				className="flex-grow resize-none rounded-none bg-black bg-opacity-25 text-white outline-none"
 				value={code}
 				onChange={handleCodeChange}
 				placeholder={"Enter your code..." + "\n\n\n\n\n"}
