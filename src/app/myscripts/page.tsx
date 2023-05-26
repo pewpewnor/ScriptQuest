@@ -10,7 +10,7 @@ const MAX_TITLE_LENGTH = 30;
 interface MyScriptsProps {}
 
 const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
-	const [toEdit, setToEdit] = useState<null | string>(null);
+	const [openEditPage, setOpenEditPage] = useState<null | string>(null);
 
 	function createScriptReducer(scripts: ScriptData[], action: ScriptAction) {
 		switch (action.type) {
@@ -45,7 +45,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 				if (action.payload.title === undefined) {
 					throw new Error("Error during edit action");
 				}
-				setToEdit(action.payload.title);
+				setOpenEditPage(action.payload.title);
 				return scripts;
 			default:
 				return scripts;
@@ -104,39 +104,47 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 		}));
 	}
 
+	if (!openEditPage) {
+		return (
+			<>
+				<Navbar leaveWarning={true} />
+				<div className="flex w-full flex-col justify-around gap-16 px-10 pb-14 pt-44 sm:px-24 lg:px-96">
+					<h1 className="text-center font-vt text-4xl text-clay">
+						Create a new script to begin!
+					</h1>
+					<div className="flex flex-col items-center justify-center gap-x-4 gap-y-8 sm:flex-row sm:gap-10">
+						<input
+							type="text"
+							name="title"
+							value={createScriptData.title}
+							onChange={handleChange}
+							placeholder="Script title..."
+							className="w-full rounded-3xl bg-slate-900 px-6 py-2 font-vt text-2xl text-clay outline-none"
+						/>
+						<button
+							className="w-40 rounded-3xl bg-lime p-2 font-vt text-2xl text-dark hover:bg-electric hover:text-clay sm:w-72"
+							onClick={handleCreateScript}
+						>
+							Create
+						</button>
+					</div>
+					<div className="flex flex-col gap-14">
+						{scripts.map((script) => (
+							<ScriptItem
+								key={script.title}
+								{...script}
+								dispatchScripts={dispatchScripts}
+							/>
+						))}
+					</div>
+				</div>
+			</>
+		);
+	}
+
 	return (
 		<>
 			<Navbar leaveWarning={true} />
-			<div className="flex w-full flex-col justify-around gap-16 px-10 pb-14 pt-44 sm:px-24 lg:px-96">
-				<h1 className="text-center font-vt text-4xl text-clay">
-					Create a new script to begin!
-				</h1>
-				<div className="flex flex-col items-center justify-center gap-x-4 gap-y-8 sm:flex-row sm:gap-10">
-					<input
-						type="text"
-						name="title"
-						value={createScriptData.title}
-						onChange={handleChange}
-						placeholder="Script title..."
-						className="w-full rounded-3xl bg-slate-900 px-6 py-2 font-vt text-2xl text-clay outline-none"
-					/>
-					<button
-						className="w-40 rounded-3xl bg-lime p-2 font-vt text-2xl text-dark hover:bg-electric hover:text-clay sm:w-72"
-						onClick={handleCreateScript}
-					>
-						Create
-					</button>
-				</div>
-				<div className="flex flex-col gap-14">
-					{scripts.map((script) => (
-						<ScriptItem
-							key={script.title}
-							{...script}
-							dispatchScripts={dispatchScripts}
-						/>
-					))}
-				</div>
-			</div>
 		</>
 	);
 };
