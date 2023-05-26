@@ -1,23 +1,22 @@
 interface SyntaxResult {
-	ok: boolean;
 	error: string[];
 }
 
-const PROPER_PAUSE = `Example of correct syntax for 'pause':\n\tpause`;
-const PROPER_EXIT = `Example of correct syntax for 'exit':\n\texit`;
-const PROPER_SAY = `Example of correct syntax for 'say':\n\tsay hello world`;
-const PROPER_READ = `Example of correct syntax for 'read':\n\tread name`;
-const PROPER_IF_SYNTAX = `Example of correct syntax for 'if':\n\tif choice is 1\n\t\tsay You just typed 1\nend`;
+const PROPER_PAUSE = `\tIncorrect syntax for 'pause' found\n\tExample of correct syntax for 'pause':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tpause\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
+const PROPER_EXIT = `\tIncorrect syntax for 'exit' found\n\tExample of correct syntax for 'exit':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\texit\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
+const PROPER_SAY = `\tIncorrect syntax for 'say' found\n\tExample of correct syntax for 'say':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tsay hello world\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
+const PROPER_READ = `\tIncorrect syntax for 'read' found\n\tExample of correct syntax for 'read':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tread name\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
+const PROPER_IF_SYNTAX = `\tIncorrect syntax for 'if' found\n\tExample of correct syntax for 'if':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tif choice is 1\n\t\t\tsay You just typed 1\n\t\tend\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
 // const PROPER_CHECKPOINT = `Example of correct syntax for 'savepoint'\n\tcheckpoint alpha`;
 // const PROPER_GOTO = `Example of correct syntax for 'goto':\n\tgoto alpha`;
 
-function detectError(code: string): SyntaxResult {
+function detectError(code: string) {
 	const lines = code.split("\n");
-	const error: string[] = [];
+	const errors: string[] = [];
 	let index = 0;
 
 	function addErrorDirectly(message: string) {
-		error.push(`Syntax error found at line ${index + 1}.\n${message}`);
+		errors.push(`Syntax error found at line ${index + 1}.\n${message}`);
 	}
 
 	function pushError(cause: string) {
@@ -47,7 +46,7 @@ function detectError(code: string): SyntaxResult {
 			// 	addErrorDirectly(PROPER_GOTO);
 			// 	break;
 			default:
-				addErrorDirectly(`Keyword '${cause}' is unrecognized`);
+				addErrorDirectly(`\tKeyword '${cause}' is unrecognized`);
 				break;
 		}
 	}
@@ -92,7 +91,7 @@ function detectError(code: string): SyntaxResult {
 				}
 				if (reads.includes(tokens[1]) === false) {
 					addErrorDirectly(
-						`You must read varible ${tokens[1]} first by doing 'read ${tokens[1]}'`
+						`\tYou first must read varible '${tokens[1]}'\n\t\tYou can do this by adding the code:\n\t\tread ${tokens[1]}`
 					);
 					continue;
 				}
@@ -118,8 +117,10 @@ function detectError(code: string): SyntaxResult {
 		}
 	}
 
-	return { ok: error.length === 0, error: error };
+	return errors;
 }
+
+export default detectError;
 
 // const code = `
 // say You find yourself standing at the entrance of a mysterious temple hidden deep within the dense jungle.
@@ -151,5 +152,4 @@ function detectError(code: string): SyntaxResult {
 
 // const res = detectError(code);
 
-// console.log(res.ok ? "CODE IS OK" : `ERROR DETECTED`);
-// console.log(res.error);
+// console.log(res);
