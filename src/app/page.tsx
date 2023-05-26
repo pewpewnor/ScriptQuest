@@ -7,7 +7,7 @@ interface WelcomePageProps {}
 const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 	return (
 		<>
-			<Navbar leaveWarning={false} />
+			<Navbar />
 			<div className="paper-grid grid h-screen items-center pt-12">
 				{/* Hero */}
 				<div className="paper-grid flex flex-col items-center justify-center gap-40 bg-dark px-8 py-14 md:px-16 halfxl:flex-row halfxl:gap-0">

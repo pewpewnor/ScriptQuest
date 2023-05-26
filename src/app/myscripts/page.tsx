@@ -2,6 +2,7 @@
 import Editor from "@/components/editor/Editor";
 import ScriptItem from "@/components/item/ScriptItem";
 import Navbar from "@/components/navbar/Navbar";
+import ScriptNavbar from "@/components/navbar/ScriptNavbar";
 import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
 import { ChangeEvent, FC, Reducer, useReducer, useState } from "react";
@@ -110,7 +111,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 	if (!selectedPageTitle) {
 		return (
 			<>
-				<Navbar leaveWarning={true} />
+				<ScriptNavbar />
 				<div className="flex w-full flex-col justify-around gap-16 px-10 pb-14 pt-44 sm:px-24 lg:px-96">
 					<h1 className="text-center font-vt text-4xl text-clay">
 						Create a new script to begin!
@@ -145,11 +146,9 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 		);
 	}
 
-	function handleCodeChange() {}
-
 	return (
 		<>
-			<Navbar leaveWarning={true} />
+			<ScriptNavbar />
 			<div className="pt-12">
 				{/* Ribbon */}
 				<div className=""></div>

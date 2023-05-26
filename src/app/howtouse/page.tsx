@@ -6,7 +6,7 @@ interface HowToUseProps {}
 const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 	return (
 		<>
-			<Navbar leaveWarning={false} /> <div></div>
+			<Navbar /> <div></div>
 		</>
 	);
 };
