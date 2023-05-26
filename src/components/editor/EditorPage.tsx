@@ -61,6 +61,22 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 		props.closeEditor();
 	}
 
+	function handleTabKey(event) {
+		if (event.key === "Tab") {
+			event.preventDefault();
+			const { selectionStart, selectionEnd, value } = event.target;
+			const newValue =
+				value.substring(0, selectionStart) +
+				"    " +
+				value.substring(selectionEnd);
+			event.target.value = newValue;
+			event.target.setSelectionRange(
+				selectionStart + 4,
+				selectionStart + 4
+			);
+		}
+	}
+
 	return (
 		<div className="paper-grid flex">
 			{/* Navbar */}
@@ -124,6 +140,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 							spellCheck={false}
 							value={code}
 							onChange={handleCodeChange}
+							onKeyDown={handleTabKey}
 							placeholder={"Enter your code..."}
 						/>
 					</div>
