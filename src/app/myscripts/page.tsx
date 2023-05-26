@@ -1,5 +1,4 @@
 "use client";
-import Editor from "@/components/editor/Editor";
 import ScriptItem from "@/components/item/ScriptItem";
 import Navbar from "@/components/navbar/Navbar";
 import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
@@ -13,7 +12,7 @@ interface MyScriptsProps {}
 const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 	const [toEdit, setToEdit] = useState<null | string>(null);
 
-	function inputDataReducer(scripts: ScriptData[], action: ScriptAction) {
+	function createScriptReducer(scripts: ScriptData[], action: ScriptAction) {
 		switch (action.type) {
 			case ScriptActionType.ADD:
 				return [
@@ -55,21 +54,23 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 
 	const [scripts, dispatchScripts] = useReducer<
 		Reducer<ScriptData[], ScriptAction>
-	>(inputDataReducer, []);
-	const [inputData, setInputData] = useState<ScriptData>(
+	>(createScriptReducer, []);
+	const [createScriptData, setCreateScriptData] = useState<ScriptData>(
 		DEFAULT_SCRIPTDATA_VALUE
 	);
 
-	function addScript() {
-		if (inputData.title.length > MAX_TITLE_LENGTH) {
+	function handleCreateScript() {
+		if (createScriptData.title.length > MAX_TITLE_LENGTH) {
 			alert(
 				`Script title cannot be more than ${MAX_TITLE_LENGTH} characters`
 			);
 			return;
-		} else if (inputData.title.length === 0) {
+		} else if (createScriptData.title.length === 0) {
 			alert("Script title cannot be empty");
 			return;
-		} else if (scripts.some((script) => script.title === inputData.title)) {
+		} else if (
+			scripts.some((script) => script.title === createScriptData.title)
+		) {
 			alert("Script title must be unique");
 			return;
 		}
@@ -79,11 +80,11 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 			payload: {
 				newScript: {
 					...DEFAULT_SCRIPTDATA_VALUE,
-					title: inputData.title,
+					title: createScriptData.title,
 				},
 			},
 		});
-		setInputData(DEFAULT_SCRIPTDATA_VALUE);
+		setCreateScriptData(DEFAULT_SCRIPTDATA_VALUE);
 	}
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -97,7 +98,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 			return;
 		}
 
-		setInputData((prev) => ({
+		setCreateScriptData((prev) => ({
 			...prev,
 			[event.target.name]: event.target.value,
 		}));
@@ -114,14 +115,14 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 					<input
 						type="text"
 						name="title"
-						value={inputData.title}
+						value={createScriptData.title}
 						onChange={handleChange}
 						placeholder="Script title..."
 						className="w-full rounded-3xl bg-slate-900 px-6 py-2 font-vt text-2xl text-clay outline-none"
 					/>
 					<button
 						className="w-40 rounded-3xl bg-lime p-2 font-vt text-2xl text-dark hover:bg-electric hover:text-clay sm:w-72"
-						onClick={addScript}
+						onClick={handleCreateScript}
 					>
 						Create
 					</button>
