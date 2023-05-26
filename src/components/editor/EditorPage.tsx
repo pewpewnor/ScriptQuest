@@ -1,6 +1,6 @@
 import { ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
-import { ChangeEvent, Dispatch, FC, useState } from "react";
+import { ChangeEvent, Dispatch, FC, KeyboardEvent, useState } from "react";
 import { AiFillSave, AiOutlineDownload } from "react-icons/ai";
 import { BsPlayFill } from "react-icons/bs";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
@@ -61,19 +61,18 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 		props.closeEditor();
 	}
 
-	function handleTabKey(event) {
+	function handleTabKey(event: KeyboardEvent<HTMLTextAreaElement>) {
 		if (event.key === "Tab") {
 			event.preventDefault();
-			const { selectionStart, selectionEnd, value } = event.target;
+			const { selectionStart, selectionEnd } = event.currentTarget;
+			const textarea = event.currentTarget as HTMLTextAreaElement;
+			const value = textarea.value;
 			const newValue =
 				value.substring(0, selectionStart) +
 				"    " +
 				value.substring(selectionEnd);
-			event.target.value = newValue;
-			event.target.setSelectionRange(
-				selectionStart + 4,
-				selectionStart + 4
-			);
+			textarea.value = newValue;
+			textarea.setSelectionRange(selectionStart + 4, selectionStart + 4);
 		}
 	}
 
