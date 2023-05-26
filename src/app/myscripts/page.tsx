@@ -4,6 +4,10 @@ import Navbar from "@/components/navbar/Navbar";
 import { ChangeEvent, FC, useState } from "react";
 
 const MAX_TITLE_LENGTH = 50;
+const DEFAULT_SCRIPTDATA_VALUE = {
+	title: "",
+	code: "",
+};
 
 interface ScriptData {
 	title: string;
@@ -14,10 +18,9 @@ interface MyScriptsProps {}
 
 const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 	const [scripts, setScripts] = useState<ScriptData[]>([]);
-	const [inputData, setInputData] = useState<ScriptData>({
-		title: "",
-		code: "",
-	});
+	const [inputData, setInputData] = useState<ScriptData>(
+		DEFAULT_SCRIPTDATA_VALUE
+	);
 
 	function addScript() {
 		if (inputData.title.length > MAX_TITLE_LENGTH) {
@@ -34,10 +37,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 		}
 
 		setScripts((prev) => [{ title: inputData.title, code: "" }, ...prev]);
-		setInputData({
-			title: "",
-			code: "",
-		});
+		setInputData(DEFAULT_SCRIPTDATA_VALUE);
 	}
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>) {
