@@ -31,6 +31,9 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 
 	const [showRename, setShowRename] = useState(false);
 
+	const [error, setError] = useState(false);
+	const [output, setOutput] = useState("");
+
 	function handleCodeChange(event: ChangeEvent<HTMLTextAreaElement>) {
 		const input = event.target.value;
 		const lines = input.split("\n");
@@ -112,14 +115,14 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 							{code.split("\n").map((_, index) => (
 								<div
 									key={index}
-									className="px-3 font-vt text-2xl text-clay"
+									className="px-3 font-mono text-lg text-clay"
 								>
 									{index + 1}
 								</div>
 							))}
 						</div>
 						<textarea
-							className="flex-grow resize-none rounded-none bg-black bg-opacity-50 px-2 font-vt text-2xl text-white outline-none"
+							className="flex-grow resize-none rounded-none bg-black bg-opacity-50 px-2 font-mono text-lg text-white outline-none"
 							spellCheck={false}
 							value={code}
 							onChange={handleCodeChange}
@@ -130,7 +133,14 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 			</div>
 
 			{/* Output */}
-			<div className="relative h-screen w-2/6 border-2 border-electric bg-slate-900 p-4"></div>
+			<div className="relative h-screen w-2/6 border-2 border-electric bg-slate-900 p-4 text-left font-vt text-2xl text-clay">
+				<p className={error ? "font-mono text-lg text-red-500" : ""}>
+					Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+					Omnis adipisci fugiat debitis soluta veritatis rerum error
+					consequatur nam voluptatem perferendis.
+				</p>
+				{output}
+			</div>
 		</div>
 	);
 };
