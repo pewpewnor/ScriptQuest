@@ -70,7 +70,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 						className="w-full rounded-3xl bg-slate-900 px-6 py-2 font-vt text-2xl text-clay outline-none"
 					/>
 					<button
-						className="w-40 rounded-3xl bg-lime p-2 font-vt text-2xl text-dark hover:bg-electric sm:w-72"
+						className="w-40 rounded-3xl bg-lime p-2 font-vt text-2xl text-dark hover:bg-electric hover:text-clay sm:w-72"
 						onClick={addScript}
 					>
 						Create
