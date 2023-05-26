@@ -120,7 +120,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 				<ScriptNavbar />
 				<div className="flex w-full flex-col justify-around gap-16 px-10 pb-14 pt-44 sm:px-24 lg:px-96">
 					<h1 className="text-center font-vt text-4xl text-clay">
-						Create a new script to begin!
+						Create a new game to begin!
 					</h1>
 					<div className="flex flex-col items-center justify-center gap-x-4 gap-y-8 sm:flex-row sm:gap-10">
 						<input
@@ -128,7 +128,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 							name="title"
 							value={createScriptData.title}
 							onChange={handleChange}
-							placeholder="Script title..."
+							placeholder="Game title..."
 							className="w-full rounded-3xl bg-slate-900 px-6 py-2 font-vt text-2xl text-clay outline-none"
 						/>
 						<button
