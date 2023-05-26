@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
 interface WelcomePageProps {}
@@ -17,9 +18,14 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 						</p>
 						<div className="flex flex-col gap-8 font-press text-3xl sm:text-5xl halfxl:text-6xl">
 							<div className="flex flex-col items-center justify-center gap-8 sm:flex-row sm:justify-normal">
-								<button className="min-w-min -skew-y-2 rounded-md bg-lime p-6 text-dark hover:bg-electric hover:text-clay active:bg-electric">
+								<Link
+									href="/myscripts"
+									rel="noopener noreferrer"
+									target="_blank"
+									className="min-w-min -skew-y-2 rounded-md bg-lime p-6 text-dark hover:bg-electric hover:text-clay active:bg-electric"
+								>
 									SCRIPT
-								</button>
+								</Link>
 								<h1 className="text-clay">A</h1>
 							</div>
 							<h1 className="text-center leading-normal text-clay sm:text-left">
