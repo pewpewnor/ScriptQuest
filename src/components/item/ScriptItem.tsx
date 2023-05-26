@@ -31,7 +31,6 @@ const ScriptItem: FC<ScriptItemProps> = (props: ScriptItemProps) => {
 				</h1>
 
 				<div className="flex items-center gap-4">
-					{/* <MdOutlineDriveFileRenameOutline className="h-6 w-6 cursor-pointer fill-lime hover:fill-clay" /> */}
 					<AiFillDelete
 						className="h-6 w-6 cursor-pointer fill-red-500 hover:fill-red-400"
 						onClick={handleDelete}
