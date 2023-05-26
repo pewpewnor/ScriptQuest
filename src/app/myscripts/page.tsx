@@ -89,7 +89,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 		Reducer<ScriptData[], ScriptAction>
 	>(createScriptReducer, [
 		{
-			title: "alpha",
+			title: "sample game",
 			code: "",
 		},
 	]);
