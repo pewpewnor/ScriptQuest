@@ -1,4 +1,5 @@
 "use client";
+import Editor from "@/components/editor/Editor";
 import ScriptItem from "@/components/item/ScriptItem";
 import Navbar from "@/components/navbar/Navbar";
 import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
@@ -10,7 +11,9 @@ const MAX_TITLE_LENGTH = 30;
 interface MyScriptsProps {}
 
 const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
-	const [openEditPage, setOpenEditPage] = useState<null | string>(null);
+	const [selectedPageTitle, setSelectedPageTitle] = useState<null | string>(
+		null
+	);
 
 	function createScriptReducer(scripts: ScriptData[], action: ScriptAction) {
 		switch (action.type) {
@@ -45,7 +48,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 				if (action.payload.title === undefined) {
 					throw new Error("Error during edit action");
 				}
-				setOpenEditPage(action.payload.title);
+				setSelectedPageTitle(action.payload.title);
 				return scripts;
 			default:
 				return scripts;
@@ -104,7 +107,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 		}));
 	}
 
-	if (!openEditPage) {
+	if (!selectedPageTitle) {
 		return (
 			<>
 				<Navbar leaveWarning={true} />
@@ -142,9 +145,18 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 		);
 	}
 
+	function handleCodeChange() {}
+
 	return (
 		<>
 			<Navbar leaveWarning={true} />
+			<div className="pt-12">
+				{/* Ribbon */}
+				<div className=""></div>
+
+				{/* Code Editor */}
+				<Editor />
+			</div>
 		</>
 	);
 };
