@@ -1,5 +1,5 @@
 import { ScriptData } from "@/types/script-type";
-import { ScriptAction } from "@/types/scriptaction-type";
+import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
 import { ChangeEvent, Dispatch, FC, useState } from "react";
 import { AiFillSave, AiOutlineDownload } from "react-icons/ai";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
@@ -21,12 +21,14 @@ function exceedMaxCharactersPerLine(lines: string[]) {
 }
 interface EditorPageProps extends ScriptData {
 	dispatchScripts: Dispatch<ScriptAction>;
+	closeEditor: () => void;
 }
 
 const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
+	const [title, setTitle] = useState(props.title);
 	const [code, setCode] = useState(props.code);
 
-	const handleCodeChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+	function handleCodeChange(event: ChangeEvent<HTMLTextAreaElement>) {
 		const input = event.target.value;
 		const lines = input.split("\n");
 
@@ -41,13 +43,19 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 		}
 
 		setCode(input);
-	};
+	}
 
-	const lineNumbers = code.split("\n").map((_, index) => (
-		<div key={index} className="px-3 font-vt text-2xl text-clay">
-			{index + 1}
-		</div>
-	));
+	function handleCloseAndSave() {
+		props.dispatchScripts({
+			type: ScriptActionType.SAVECODE,
+			payload: { title: props.title, code: code },
+		});
+		props.dispatchScripts({
+			type: ScriptActionType.RENAME,
+			payload: { title: props.title, newTitle: title },
+		});
+		props.closeEditor();
+	}
 
 	return (
 		<div className="paper-grid flex">
@@ -58,7 +66,10 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 						Export
 						<AiOutlineDownload className="fill-clay group-hover:fill-electric" />
 					</button>
-					<button className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric">
+					<button
+						className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric"
+						onClick={handleCloseAndSave}
+					>
 						Save & exit
 						<AiFillSave className="fill-clay group-hover:fill-electric" />
 					</button>
@@ -67,7 +78,16 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 				{/* Code Editor */}
 				<div className="min-h-screen w-full bg-black bg-opacity-10 pt-16">
 					<div className="flex">
-						<div className="">{lineNumbers}</div>
+						<div className="">
+							{code.split("\n").map((_, index) => (
+								<div
+									key={index}
+									className="px-3 font-vt text-2xl text-clay"
+								>
+									{index + 1}
+								</div>
+							))}
+						</div>
 						<textarea
 							className="flex-grow resize-none rounded-none bg-black bg-opacity-50 px-2 font-vt text-2xl text-white outline-none"
 							spellCheck={false}
@@ -80,7 +100,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 			</div>
 
 			{/* Output */}
-			<div className="h-screen w-2/6 border-2 border-electric bg-slate-900 pt-16">
+			<div className="h-screen w-2/6 border-2 border-electric bg-slate-900 p-4">
 				a
 			</div>
 		</div>
