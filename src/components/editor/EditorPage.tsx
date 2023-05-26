@@ -2,6 +2,7 @@ import { ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
 import { ChangeEvent, Dispatch, FC, useState } from "react";
 import { AiFillSave, AiOutlineDownload } from "react-icons/ai";
+import { BsPlayFill } from "react-icons/bs";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 
 const MAX_NUMBER_OF_LINES = 300;
@@ -27,6 +28,8 @@ interface EditorPageProps extends ScriptData {
 const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 	const [title, setTitle] = useState(props.title);
 	const [code, setCode] = useState(props.code);
+
+	const [showRename, setShowRename] = useState(false);
 
 	function handleCodeChange(event: ChangeEvent<HTMLTextAreaElement>) {
 		const input = event.target.value;
@@ -61,7 +64,30 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 		<div className="paper-grid flex">
 			{/* Navbar */}
 			<div className="flex w-4/6 flex-col">
-				<div className="absolute top-0 flex w-4/6 items-center justify-center gap-14 bg-black px-10 text-center font-vt text-2xl text-clay sm:h-16 sm:px-10 sm:text-left">
+				<div className="absolute top-0 flex w-4/6 items-center justify-around gap-14 bg-black px-10 text-center font-vt text-2xl text-clay sm:h-16 sm:px-10 sm:text-left">
+					<h1 className="group flex items-center justify-center gap-2 rounded-lg p-2 font-press text-lg text-clay">
+						{showRename ? (
+							<input
+								type="text"
+								name="title"
+								value={title}
+								placeholder="Enter new title..."
+								onChange={(event) => {
+									setTitle(event.target.value);
+								}}
+								className="bg-black px-2"
+								spellCheck={false}
+							/>
+						) : (
+							title
+						)}
+						<MdOutlineDriveFileRenameOutline
+							className="h-6 w-6 cursor-pointer fill-clay group-hover:fill-electric"
+							onClick={() => {
+								setShowRename((prev) => !prev);
+							}}
+						/>
+					</h1>
 					<button className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric">
 						Export
 						<AiOutlineDownload className="fill-clay group-hover:fill-electric" />
@@ -72,6 +98,10 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 					>
 						Save & exit
 						<AiFillSave className="fill-clay group-hover:fill-electric" />
+					</button>
+					<button className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric">
+						PLAY
+						<BsPlayFill className="h-5 w-5 fill-slate-900 " />
 					</button>
 				</div>
 
@@ -100,9 +130,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 			</div>
 
 			{/* Output */}
-			<div className="h-screen w-2/6 border-2 border-electric bg-slate-900 p-4">
-				a
-			</div>
+			<div className="relative h-screen w-2/6 border-2 border-electric bg-slate-900 p-4"></div>
 		</div>
 	);
 };
