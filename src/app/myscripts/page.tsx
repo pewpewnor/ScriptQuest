@@ -1,18 +1,10 @@
 "use client";
 import Editor from "@/components/editor/Editor";
 import Navbar from "@/components/navbar/Navbar";
+import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
 import { ChangeEvent, FC, useState } from "react";
 
-const MAX_TITLE_LENGTH = 50;
-const DEFAULT_SCRIPTDATA_VALUE = {
-	title: "",
-	code: "",
-};
-
-interface ScriptData {
-	title: string;
-	code: string;
-}
+const MAX_TITLE_LENGTH = 30;
 
 interface MyScriptsProps {}
 
@@ -63,11 +55,11 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 	return (
 		<>
 			<Navbar leaveWarning={true} />
-			<div className="flex w-full flex-col justify-around gap-16 px-10 pb-14 pt-44 sm:px-24 lg:px-80">
+			<div className="flex w-full flex-col justify-around gap-16 px-10 pb-14 pt-44 sm:px-24 lg:px-96">
 				<h1 className="text-center font-vt text-4xl text-clay">
 					Create a new script to begin!
 				</h1>
-				<div className="flex gap-4 sm:gap-10">
+				<div className="flex flex-col items-center justify-center gap-x-4 gap-y-8 sm:flex-row sm:gap-10">
 					<input
 						type="text"
 						name="title"
@@ -87,12 +79,12 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 					{scripts.map((script) => (
 						<div
 							key={script.title}
-							className="h-36 rounded-lg bg-black bg-opacity-50"
+							className="h-36 overflow-hidden rounded-lg bg-black bg-opacity-50"
 						>
-							<h1 className="px-4 py-2 font-vt text-2xl text-clay">
+							<h1 className="border-b-2 border-slate-800 px-4 py-2 font-vt text-2xl text-clay">
 								{script.title}
 							</h1>
-							<hr />
+							<div className="w-full "></div>
 						</div>
 					))}
 				</div>
