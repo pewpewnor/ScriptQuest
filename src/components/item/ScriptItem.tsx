@@ -1,9 +1,12 @@
 import { ScriptData } from "@/types/script-type";
-import { FC } from "react";
+import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
+import { Dispatch, FC } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 
-interface ScriptItemProps extends ScriptData {}
+interface ScriptItemProps extends ScriptData {
+	dispatchScripts: Dispatch<ScriptAction>;
+}
 
 const ScriptItem: FC<ScriptItemProps> = (props: ScriptItemProps) => {
 	return (
