@@ -1,5 +1,6 @@
 "use client";
 import Editor from "@/components/editor/Editor";
+import ScriptItem from "@/components/item/ScriptItem";
 import Navbar from "@/components/navbar/Navbar";
 import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
 import { ChangeEvent, FC, useState } from "react";
@@ -77,15 +78,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 				</div>
 				<div className="flex flex-col gap-14">
 					{scripts.map((script) => (
-						<div
-							key={script.title}
-							className="h-36 overflow-hidden rounded-lg bg-black bg-opacity-50"
-						>
-							<h1 className="border-b-2 border-slate-800 px-4 py-2 font-vt text-2xl text-clay">
-								{script.title}
-							</h1>
-							<div className="w-full "></div>
-						</div>
+						<ScriptItem key={script.title} {...script} />
 					))}
 				</div>
 			</div>
