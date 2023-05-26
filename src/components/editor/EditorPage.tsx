@@ -7,7 +7,7 @@ import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import Output from "./Output";
 
 const MAX_NUMBER_OF_LINES = 300;
-const MAX_CHARACTERS_PER_LINE = 300;
+const MAX_CHARACTERS_PER_LINE = 500;
 
 function exceedMaxNumberOfLines(lines: string[]) {
 	return lines.length > MAX_NUMBER_OF_LINES;
@@ -108,7 +108,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 
 				{/* Code Editor */}
 				<div className="min-h-screen w-full bg-black bg-opacity-10 pt-16">
-					<div className="flex">
+					<div className="flex h-full overflow-x-auto">
 						<div className="">
 							{code.split("\n").map((_, index) => (
 								<div
@@ -120,11 +120,11 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 							))}
 						</div>
 						<textarea
-							className="flex-grow resize-none rounded-none bg-black bg-opacity-50 px-2 font-mono text-lg text-white outline-none"
+							className="flex-grow resize-none overflow-x-auto whitespace-pre rounded-none bg-black bg-opacity-50 px-2 font-mono text-lg text-white outline-none"
 							spellCheck={false}
 							value={code}
 							onChange={handleCodeChange}
-							placeholder={"Enter your code..." + "\n\n\n\n\n"}
+							placeholder={"Enter your code..."}
 						/>
 					</div>
 				</div>
