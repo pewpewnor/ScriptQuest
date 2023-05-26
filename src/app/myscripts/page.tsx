@@ -36,7 +36,10 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 			return;
 		}
 
-		setScripts((prev) => [{ title: inputData.title, code: "" }, ...prev]);
+		setScripts((prev) => [
+			{ ...DEFAULT_SCRIPTDATA_VALUE, title: inputData.title },
+			...prev,
+		]);
 		setInputData(DEFAULT_SCRIPTDATA_VALUE);
 	}
 
@@ -68,6 +71,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 					<input
 						type="text"
 						name="title"
+						value={inputData.title}
 						onChange={handleChange}
 						placeholder="Script title..."
 						className="w-full rounded-3xl bg-slate-900 px-6 py-2 font-vt text-2xl text-clay outline-none"
