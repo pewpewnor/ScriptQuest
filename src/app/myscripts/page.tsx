@@ -3,14 +3,59 @@ import Editor from "@/components/editor/Editor";
 import ScriptItem from "@/components/item/ScriptItem";
 import Navbar from "@/components/navbar/Navbar";
 import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
-import { ChangeEvent, FC, useState } from "react";
+import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
+import { ChangeEvent, FC, Reducer, useReducer, useState } from "react";
 
 const MAX_TITLE_LENGTH = 30;
 
 interface MyScriptsProps {}
 
 const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
-	const [scripts, setScripts] = useState<ScriptData[]>([]);
+	const [toEdit, setToEdit] = useState<null | string>(null);
+
+	function inputDataReducer(scripts: ScriptData[], action: ScriptAction) {
+		switch (action.type) {
+			case ScriptActionType.ADD:
+				return [
+					{
+						...(action.payload.newScript
+							? action.payload.newScript
+							: DEFAULT_SCRIPTDATA_VALUE),
+					},
+					...scripts,
+				];
+			case ScriptActionType.DELETE:
+				return scripts.filter(
+					(script) => script.title !== action.payload.title
+				);
+			case ScriptActionType.RENAME:
+				if (action.payload.newTitle === undefined) {
+					throw new Error("Error during edit action");
+				}
+				return scripts.map((script) =>
+					script.title === action.payload.title
+						? {
+								...script,
+								title: action.payload.newTitle
+									? action.payload.newTitle
+									: "error during rename",
+						  }
+						: script
+				);
+			case ScriptActionType.EDIT:
+				if (action.payload.title === undefined) {
+					throw new Error("Error during edit action");
+				}
+				setToEdit(action.payload.title);
+				return scripts;
+			default:
+				return scripts;
+		}
+	}
+
+	const [scripts, dispatchScripts] = useReducer<
+		Reducer<ScriptData[], ScriptAction>
+	>(inputDataReducer, []);
 	const [inputData, setInputData] = useState<ScriptData>(
 		DEFAULT_SCRIPTDATA_VALUE
 	);
@@ -29,10 +74,15 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 			return;
 		}
 
-		setScripts((prev) => [
-			{ ...DEFAULT_SCRIPTDATA_VALUE, title: inputData.title },
-			...prev,
-		]);
+		dispatchScripts({
+			type: ScriptActionType.ADD,
+			payload: {
+				newScript: {
+					...DEFAULT_SCRIPTDATA_VALUE,
+					title: inputData.title,
+				},
+			},
+		});
 		setInputData(DEFAULT_SCRIPTDATA_VALUE);
 	}
 
@@ -78,7 +128,11 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
 				</div>
 				<div className="flex flex-col gap-14">
 					{scripts.map((script) => (
-						<ScriptItem key={script.title} {...script} />
+						<ScriptItem
+							key={script.title}
+							{...script}
+							dispatchScripts={dispatchScripts}
+						/>
 					))}
 				</div>
 			</div>
