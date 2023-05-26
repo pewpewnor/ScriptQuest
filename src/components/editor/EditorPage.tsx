@@ -4,6 +4,7 @@ import { ChangeEvent, Dispatch, FC, useState } from "react";
 import { AiFillSave, AiOutlineDownload } from "react-icons/ai";
 import { BsPlayFill } from "react-icons/bs";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import Output from "./Output";
 
 const MAX_NUMBER_OF_LINES = 300;
 const MAX_CHARACTERS_PER_LINE = 300;
@@ -30,9 +31,6 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 	const [code, setCode] = useState(props.code);
 
 	const [showRename, setShowRename] = useState(false);
-
-	const [error, setError] = useState(false);
-	const [output, setOutput] = useState("");
 
 	function handleCodeChange(event: ChangeEvent<HTMLTextAreaElement>) {
 		const input = event.target.value;
@@ -133,14 +131,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 			</div>
 
 			{/* Output */}
-			<div className="relative h-screen w-2/6 border-2 border-electric bg-slate-900 p-4 text-left font-vt text-2xl text-clay">
-				<p className={error ? "font-mono text-lg text-red-500" : ""}>
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-					Omnis adipisci fugiat debitis soluta veritatis rerum error
-					consequatur nam voluptatem perferendis.
-				</p>
-				{output}
-			</div>
+			<Output code={code} />
 		</div>
 	);
 };
