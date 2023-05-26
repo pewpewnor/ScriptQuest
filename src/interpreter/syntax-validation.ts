@@ -97,7 +97,7 @@ function detectError(code: string) {
 				}
 				if (!hasEnd()) {
 					addErrorDirectly(
-						`There is no end for this if expression, you need to put 'end' to mark the end of the if condition`
+						`\tThere is no end for this if expression\n\t\Close it with the 'end' keyword, example:\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tif choice is 1\n\t\t\tsay You just typed 1\n\t\tend\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 					);
 					continue;
 				}
@@ -113,6 +113,12 @@ function detectError(code: string) {
 		} else if (tokensLength === 1) {
 			if (first !== "pause" && first !== "exit" && first !== "end") {
 				pushError(first);
+			}
+			if (first === "end" && takenEnd.includes(index) === false) {
+				addErrorDirectly(
+					`\tNo if expression to close with 'end' mark\n\t\tYou can simply remove this`
+				);
+				continue;
 			}
 		}
 	}
