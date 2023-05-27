@@ -29,6 +29,7 @@ function moveOutputForward(lines: Line[]) {
 interface OutputProps {
 	errors: string[];
 	code: string;
+	stopPlaying: () => void;
 }
 
 const Output: FC<OutputProps> = (props: OutputProps) => {
@@ -47,11 +48,17 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 		event
 	) => {
 		if (event.key === "Enter") {
-			console.log(event.key);
 			event.preventDefault();
 			setLines((prev) => moveOutputForward(prev));
 			setInputHistory((prev) => [...prev, input]);
 			setInput("");
+		}
+	};
+
+	const handlePauseExit: KeyboardEventHandler<HTMLInputElement> = (event) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			props.stopPlaying();
 		}
 	};
 
@@ -70,26 +77,26 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 			case CommandType.PAUSE:
 				if (line.visible === Visibility.DONE) {
 					return (
-						<div
-							key={index}
-							className="flex items-center gap-4 py-4"
-						>
-							&gt;&gt;
-							<p>{inputHistory[prevInputIndex++]}</p>
-						</div>
+						<div className="py-4">Press enter to continue...</div>
 					);
 				}
 				return (
-					<div key={index} className="flex items-center gap-4 py-4">
-						&gt;&gt;
-						<input
-							type="text"
-							name="input"
-							className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
-							onChange={handleInputChange}
-							onKeyDown={handlePauseSubmit}
-							autoFocus
-						/>
+					<div className="py-4">
+						Press enter to continue...
+						<div
+							key={index}
+							className="flex items-center gap-4 py-2"
+						>
+							&gt;&gt;
+							<input
+								type="text"
+								name="input"
+								className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
+								onChange={handleInputChange}
+								onKeyDown={handlePauseSubmit}
+								autoFocus
+							/>
+						</div>
 					</div>
 				);
 			default:
@@ -97,8 +104,36 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 		}
 	});
 
+	/*
+	<div className="py-4">
+							Press enter to continue...
+							<div
+								key={index}
+								className="flex items-center gap-4 py-2"
+							>
+								&gt;&gt;
+								<p>{inputHistory[prevInputIndex++]}</p>
+							</div>
+						</div>
+	*/
+
 	if (codeOutput[codeOutput.length - 1] !== "") {
-		codeOutput.push(<p className="flex justify-center pt-4">[The End]</p>);
+		codeOutput.push(
+			<div className="py-4">
+				<p className="flex justify-center">[The End]</p>
+				<div className="flex items-center gap-4 py-2">
+					&gt;&gt;
+					<input
+						type="text"
+						name="input"
+						className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
+						onChange={handleInputChange}
+						onKeyDown={handlePauseExit}
+						autoFocus
+					/>
+				</div>
+			</div>
+		);
 	}
 
 	return <pre className="font-vt text-2xl text-clay">{codeOutput}</pre>;

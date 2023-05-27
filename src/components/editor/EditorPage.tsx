@@ -185,7 +185,11 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 						{errors.join("\n\n")}
 					</pre>
 				) : isPlaying ? (
-					<Output errors={detectError(code)} code={code} />
+					<Output
+						errors={detectError(code)}
+						code={code}
+						stopPlaying={() => setIsPlaying(false)}
+					/>
 				) : (
 					<h1 className="text-center font-vt text-3xl text-clay">
 						Click play to start the game
