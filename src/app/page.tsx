@@ -43,12 +43,12 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 					/>
 				</div>
 				{/* Purpose */}
-				<div className="paper-grid flex flex-col items-center justify-center gap-20 bg-dark px-8 py-14 md:px-16 halfxl:flex-row halfxl:gap-0">
-					<h1 className="text-center font-press text-5xl leading-normal text-clay">
+				<div className="paper-grid flex flex-col items-center justify-center gap-20 bg-dark px-8 py-14 md:px-16 halfxl:gap-0">
+					<h1 className="text-center font-press text-5xl leading-normal text-clay mb-40">
 						PURPOSE
 					</h1>
 					<div className="-mt-10 flex flex-col gap-2">
-						<div className="mb-10 flex flex-col items-center justify-center p-5 md:flex-row">
+						<div className="mb-20 flex flex-col items-center justify-center p-5 md:flex-row">
 							<Image
 								src="/profile.jpg"
 								className="w-40 rounded-full border-2"
@@ -60,7 +60,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 								<h2 className="my-5 text-center font-press text-3xl text-clay text-lime md:my-0 md:mb-5 md:text-left">
 									Norbert Oliver
 								</h2>
-								<p className="text-center font-press text-clay text-xl md:pt-0 md:text-left">
+								<p className="text-center font-press text-xl text-clay md:pt-0 md:text-left">
 									Lorem ipsum dolor sit amet consectetur
 									adipisicing elit. Iste sapiente aut porro in
 									officiis ullam odit.
@@ -79,7 +79,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 								<h2 className="my-5 text-center font-press text-3xl text-clay text-lime md:my-0 md:mb-5 md:text-left">
 									Steven
 								</h2>
-								<p className="text-center font-press text-clay text-xl md:pt-0 md:text-left">
+								<p className="text-center font-press text-xl text-clay md:pt-0 md:text-left">
 									Lorem ipsum dolor sit amet consectetur
 									adipisicing elit. Iste sapiente aut porro in
 									officiis ullam odit.
