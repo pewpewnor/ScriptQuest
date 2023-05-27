@@ -6,6 +6,18 @@ import {
 } from "@/interpreter/parse-code";
 import { ChangeEvent, FC, KeyboardEventHandler, useState } from "react";
 
+function findSubstringIndices(target: string, substring: string) {
+	const indices = [];
+	let index = target.indexOf(substring);
+
+	while (index !== -1) {
+		indices.push(index);
+		index = target.indexOf(substring, index + 1);
+	}
+
+	return indices;
+}
+
 function moveOutputForward(lines: Line[]) {
 	for (const line of lines) {
 		if (
@@ -37,6 +49,7 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 		moveOutputForward(props.code.split("\n").map((line) => parseLine(line)))
 	);
 
+	const [variables, setVariables] = useState({});
 	const [inputHistory, setInputHistory] = useState<string[]>([]);
 	const [input, setInput] = useState<string>("");
 
@@ -49,20 +62,22 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 	) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
+
 			setLines((prev) => moveOutputForward(prev));
+
 			setInputHistory((prev) => [...prev, input]);
 			setInput("");
 		}
 	};
 
-	const handlePauseExit: KeyboardEventHandler<HTMLInputElement> = (event) => {
+	const handleExitSubmit: KeyboardEventHandler<HTMLInputElement> = (
+		event
+	) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
 			props.stopPlaying();
 		}
 	};
-
-	console.log(lines);
 
 	let prevInputIndex = 0;
 
@@ -73,20 +88,20 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 
 		switch (line.commandType) {
 			case CommandType.SAY:
+				// const indices = findSubstringIndices(line.say, )
 				return line.say;
 			case CommandType.PAUSE:
 				if (line.visible === Visibility.DONE) {
 					return (
-						<div className="py-4">Press enter to continue...</div>
+						<div key={index} className="py-4">
+							Press enter to continue...
+						</div>
 					);
 				}
 				return (
-					<div className="py-4">
+					<div key={index} className="py-4">
 						Press enter to continue...
-						<div
-							key={index}
-							className="flex items-center gap-4 py-2"
-						>
+						<div className="flex items-center gap-4 py-2">
 							&gt;&gt;
 							<input
 								type="text"
@@ -99,41 +114,72 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 						</div>
 					</div>
 				);
+			case CommandType.READ:
+				if (line.visible === Visibility.DONE) {
+					return (
+						<div
+							key={index}
+							className="flex items-center gap-4 py-4"
+						>
+							&gt;&gt;
+							<p>{inputHistory[prevInputIndex++]}</p>
+						</div>
+					);
+				}
+
+				const handleReadSubmit: KeyboardEventHandler<
+					HTMLInputElement
+				> = (event) => {
+					if (event.key === "Enter") {
+						event.preventDefault();
+
+						setLines((prev) => moveOutputForward(prev));
+
+						setVariables((prev) => ({
+							...prev,
+							[line.variable ? line.variable : ""]: input,
+						}));
+
+						setInputHistory((prev) => [...prev, input]);
+						setInput("");
+					}
+				};
+
+				return (
+					<div key={index} className="flex items-center gap-4 py-4">
+						&gt;&gt;
+						<input
+							type="text"
+							name="input"
+							className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
+							onChange={handleInputChange}
+							onKeyDown={handleReadSubmit}
+							autoFocus
+						/>
+					</div>
+				);
 			default:
 				return "";
 		}
 	});
 
-	/*
-	<div className="py-4">
-							Press enter to continue...
-							<div
-								key={index}
-								className="flex items-center gap-4 py-2"
-							>
-								&gt;&gt;
-								<p>{inputHistory[prevInputIndex++]}</p>
-							</div>
-						</div>
-	*/
-
 	if (codeOutput[codeOutput.length - 1] !== "") {
-		codeOutput.push(
-			<div className="py-4">
-				<p className="flex justify-center">[The End]</p>
-				<div className="flex items-center gap-4 py-2">
-					&gt;&gt;
-					<input
-						type="text"
-						name="input"
-						className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
-						onChange={handleInputChange}
-						onKeyDown={handlePauseExit}
-						autoFocus
-					/>
-				</div>
-			</div>
-		);
+		// codeOutput.push(
+		// 	<div key={"end"} className="py-4">
+		// 		<p className="flex justify-center">[The End]</p>
+		// 		<div className="flex items-center gap-4 py-2">
+		// 			&gt;&gt;
+		// 			<input
+		// 				type="text"
+		// 				name="input"
+		// 				className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
+		// 				onChange={handleInputChange}
+		// 				onKeyDown={handleExitSubmit}
+		// 				autoFocus
+		// 			/>
+		// 		</div>
+		// 	</div>
+		// );
 	}
 
 	return <pre className="font-vt text-2xl text-clay">{codeOutput}</pre>;
