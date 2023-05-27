@@ -179,7 +179,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 
 			{/* Output */}
 
-			<div className="h-60 w-full overflow-y-auto  border-2 border-electric bg-slate-900 p-4 text-left md:relative md:h-screen md:w-2/6">
+			<div className="fixed right-0 top-0 h-60 w-full overflow-y-auto  border-2 border-electric bg-slate-900 p-4 text-left md:h-screen md:w-2/6">
 				{errors.length ? (
 					<pre className="font-mono text-lg text-red-500">
 						{errors.join("\n\n")}
