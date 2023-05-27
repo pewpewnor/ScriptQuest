@@ -1,29 +1,56 @@
+import { CommandType, Line, parseLine } from "@/interpreter/parse-code";
 import detectError from "@/interpreter/syntax-validation";
 import { FC, useState } from "react";
 
+function moveOutputForward(lines: Line[]) {
+	for (const line of lines) {
+		line.visible = true;
+		if (
+			line.commandType === CommandType.PAUSE ||
+			line.commandType === CommandType.READ ||
+			line.commandType === CommandType.EXIT
+		) {
+			break;
+		}
+	}
+	return lines;
+}
+
 interface OutputProps {
+	errors: string[];
 	code: string;
 }
 
 const Output: FC<OutputProps> = (props: OutputProps) => {
-	let output = "";
+	const [lines, setLines] = useState<Line[]>(
+		moveOutputForward(props.code.split("\n").map((line) => parseLine(line)))
+	);
 
-	const errors = detectError(props.code);
-	if (errors) {
-		output = errors.join("\n\n");
+	console.log(lines);
+
+	// function handleInputChange(event: ChangeEvent<HTMLTextAreaElement>) {
+	// 	setRead(event.target.value);
+	// }
+
+	function handlePauseSubmit() {
+		moveOutputForward;
 	}
 
-	return (
-		<div className="relative h-screen w-2/6 overflow-y-auto border-2 border-electric bg-slate-900 p-4 text-left font-vt text-2xl text-clay">
-			<pre
-				className={
-					errors.length ? "font-mono text-lg text-red-500" : ""
-				}
-			>
-				{output}
-			</pre>
-		</div>
-	);
+	const codeOutput = lines.map((line, index) => {
+		if (!line.visible) {
+			return "";
+		}
+		switch (line.commandType) {
+			case CommandType.SAY:
+				return line.say;
+			case CommandType.PAUSE:
+				return;
+			default:
+				return "";
+		}
+	});
+
+	return <pre className="font-vt text-2xl text-clay">{codeOutput}</pre>;
 };
 
 export default Output;
