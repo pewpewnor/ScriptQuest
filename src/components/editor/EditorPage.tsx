@@ -171,7 +171,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 					<Output errors={detectError(code)} code={code} />
 				) : (
 					<h1 className="text-center font-vt text-3xl text-clay">
-						Click play to play the game
+						Click play to start the game
 					</h1>
 				)}
 			</div>
