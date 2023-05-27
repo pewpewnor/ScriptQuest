@@ -13,7 +13,7 @@ const Navbar: FC<NavbarProps> = (props: NavbarProps) => {
 				HOME
 			</Link>
 			<Link
-				href="/myscripts"
+				href="/mygames"
 				rel="noopener noreferrer"
 				target="_blank"
 				className="hover:text-white hover:underline active:text-white active:underline"
