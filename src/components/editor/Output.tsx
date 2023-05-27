@@ -6,16 +6,9 @@ import {
 } from "@/interpreter/parse-code";
 import { ChangeEvent, FC, KeyboardEventHandler, useState } from "react";
 
-function findSubstringIndices(target: string, substring: string) {
-	const indices = [];
-	let index = target.indexOf(substring);
-
-	while (index !== -1) {
-		indices.push(index);
-		index = target.indexOf(substring, index + 1);
-	}
-
-	return indices;
+function replaceAll(string: string, substring: string, replacement: string) {
+	const regex = new RegExp(substring, "g");
+	return string.replace(regex, replacement);
 }
 
 function moveOutputForward(lines: Line[]) {
@@ -88,8 +81,10 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 
 		switch (line.commandType) {
 			case CommandType.SAY:
-				// const indices = findSubstringIndices(line.say, )
-				return line.say;
+				if (line.say) {
+					return line.say;
+				}
+				return "";
 			case CommandType.PAUSE:
 				if (line.visible === Visibility.DONE) {
 					return (
