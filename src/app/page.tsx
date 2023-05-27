@@ -57,10 +57,10 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 								alt="profile"
 							/>
 							<div className="items-center justify-center md:ml-10">
-								<h2 className="my-5 text-center font-press text-2xl text-clay text-lime md:my-0 md:mb-5 md:text-left">
+								<h2 className="my-5 text-center font-press text-3xl text-clay text-lime md:my-0 md:mb-5 md:text-left">
 									Norbert Oliver
 								</h2>
-								<p className="text-center font-press text-clay md:pt-0 md:text-left">
+								<p className="text-center font-press text-clay text-xl md:pt-0 md:text-left">
 									Lorem ipsum dolor sit amet consectetur
 									adipisicing elit. Iste sapiente aut porro in
 									officiis ullam odit.
@@ -76,10 +76,10 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 								alt="profile"
 							/>
 							<div className="items-center justify-center md:ml-10">
-								<h2 className="my-5 text-center font-press text-2xl text-clay text-lime md:my-0 md:mb-5 md:text-left">
+								<h2 className="my-5 text-center font-press text-3xl text-clay text-lime md:my-0 md:mb-5 md:text-left">
 									Steven
 								</h2>
-								<p className="text-center font-press text-clay md:pt-0 md:text-left">
+								<p className="text-center font-press text-clay text-xl md:pt-0 md:text-left">
 									Lorem ipsum dolor sit amet consectetur
 									adipisicing elit. Iste sapiente aut porro in
 									officiis ullam odit.
