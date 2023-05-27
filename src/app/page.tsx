@@ -9,6 +9,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 	return (
 		<>
 			<Navbar />
+			<div className="md: my-4 text-lg font-bold text-red-500 md:flex md:text-xl lg:text-3xl"></div>
 			<div className="paper-grid grid h-screen items-center pt-12">
 				{/* Hero */}
 				<div className="paper-grid flex flex-col items-center justify-center gap-40 bg-dark px-8 py-14 md:px-16 halfxl:flex-row halfxl:gap-0">
@@ -19,7 +20,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 						<div className="flex flex-col gap-8 font-press text-3xl sm:text-5xl halfxl:text-6xl">
 							<div className="flex flex-col items-center justify-center gap-8 sm:flex-row sm:justify-normal">
 								<Link
-									href="/myscripts"
+									href="/mygames"
 									rel="noopener noreferrer"
 									target="_blank"
 									className="min-w-min -skew-y-2 rounded-md bg-lime p-6 text-dark hover:bg-electric hover:text-clay active:bg-electric"
