@@ -1,3 +1,5 @@
+"use client";
+import detectError from "@/interpreter/syntax-validation";
 import { ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
 import { ChangeEvent, Dispatch, FC, KeyboardEvent, useState } from "react";
@@ -21,6 +23,7 @@ function exceedMaxCharactersPerLine(lines: string[]) {
 	}
 	return false;
 }
+
 interface EditorPageProps extends ScriptData {
 	dispatchScripts: Dispatch<ScriptAction>;
 	closeEditor: () => void;
@@ -31,6 +34,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 	const [code, setCode] = useState(props.code);
 
 	const [showRename, setShowRename] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(false);
 
 	function handleCodeChange(event: ChangeEvent<HTMLTextAreaElement>) {
 		const input = event.target.value;
@@ -47,6 +51,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 		}
 
 		setCode(input);
+		setIsPlaying(false);
 	}
 
 	function handleCloseAndSave() {
@@ -75,6 +80,12 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 			textarea.setSelectionRange(selectionStart + 4, selectionStart + 4);
 		}
 	}
+
+	function handlePlayClicked() {
+		setIsPlaying((prev) => !prev);
+	}
+
+	const errors = detectError(code);
 
 	return (
 		<div className="paper-grid flex">
@@ -115,7 +126,10 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 						Save & exit
 						<AiFillSave className="fill-clay group-hover:fill-electric" />
 					</button>
-					<button className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric">
+					<button
+						className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
+						onClick={handlePlayClicked}
+					>
 						PLAY
 						<BsPlayFill className="h-5 w-5 fill-slate-900 " />
 					</button>
@@ -147,7 +161,20 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 			</div>
 
 			{/* Output */}
-			<Output code={code} />
+
+			<div className="relative h-screen w-2/6 overflow-y-auto border-2 border-electric bg-slate-900 p-4 text-left">
+				{errors.length ? (
+					<pre className="font-mono text-lg text-red-500">
+						{errors.join("\n\n")}
+					</pre>
+				) : isPlaying ? (
+					<Output errors={detectError(code)} code={code} />
+				) : (
+					<h1 className="text-center font-vt text-3xl text-clay">
+						Click play to play the game
+					</h1>
+				)}
+			</div>
 		</div>
 	);
 };
