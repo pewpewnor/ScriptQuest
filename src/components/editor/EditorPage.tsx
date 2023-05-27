@@ -128,19 +128,19 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 					</button>
 					{isPlaying ? (
 						<button
-							className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
-							onClick={handlePlayClicked}
-						>
-							PLAY
-							<BsPlayFill className="h-5 w-5 fill-slate-900 " />
-						</button>
-					) : (
-						<button
 							className="group flex items-center justify-center gap-1 rounded-lg bg-red-500 px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
 							onClick={handlePlayClicked}
 						>
 							STOP
 							<BsFillSquareFill className="h-4 w-4 fill-slate-900 " />
+						</button>
+					) : (
+						<button
+							className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
+							onClick={handlePlayClicked}
+						>
+							PLAY
+							<BsPlayFill className="h-5 w-5 fill-slate-900 " />
 						</button>
 					)}
 				</div>
