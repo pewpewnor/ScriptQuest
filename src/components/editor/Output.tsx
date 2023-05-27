@@ -7,7 +7,8 @@ import {
 import { ChangeEvent, FC, KeyboardEventHandler, useState } from "react";
 
 function replaceAll(string: string, substring: string, replacement: string) {
-	const regex = new RegExp(substring, "g");
+	const escapedSubstring = substring.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	const regex = new RegExp(escapedSubstring, "g");
 	return string.replace(regex, replacement);
 }
 
@@ -82,7 +83,17 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 		switch (line.commandType) {
 			case CommandType.SAY:
 				if (line.say) {
-					return line.say;
+					let replacedSay = line.say;
+					for (const key in variables) {
+						// @ts-expect-error
+						const value = variables[key];
+						replacedSay = replaceAll(
+							replacedSay,
+							"[" + key + "]",
+							value
+						);
+					}
+					return replacedSay;
 				}
 				return "";
 			case CommandType.PAUSE:
