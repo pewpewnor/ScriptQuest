@@ -120,6 +120,23 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 						</div>
 					</div>
 				);
+			case CommandType.EXIT:
+				return (
+					<div key={"end"} className="py-4">
+						<p className="flex justify-center">[The End]</p>
+						<div className="flex items-center gap-4 py-2">
+							&gt;&gt;
+							<input
+								type="text"
+								name="input"
+								className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
+								onChange={handleInputChange}
+								onKeyDown={handleExitSubmit}
+								autoFocus
+							/>
+						</div>
+					</div>
+				);
 			case CommandType.READ:
 				if (line.visible === Visibility.DONE) {
 					return (
@@ -168,25 +185,6 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 				return "";
 		}
 	});
-
-	if (codeOutput[codeOutput.length - 1] !== "") {
-		// codeOutput.push(
-		// 	<div key={"end"} className="py-4">
-		// 		<p className="flex justify-center">[The End]</p>
-		// 		<div className="flex items-center gap-4 py-2">
-		// 			&gt;&gt;
-		// 			<input
-		// 				type="text"
-		// 				name="input"
-		// 				className="w-full rounded-lg border-none bg-dark px-2 py-1 text-clay outline-none active:border-none active:outline-none"
-		// 				onChange={handleInputChange}
-		// 				onKeyDown={handleExitSubmit}
-		// 				autoFocus
-		// 			/>
-		// 		</div>
-		// 	</div>
-		// );
-	}
 
 	return <pre className="font-vt text-2xl text-clay">{codeOutput}</pre>;
 };
