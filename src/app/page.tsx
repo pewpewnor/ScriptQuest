@@ -15,7 +15,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 				<div className="paper-grid flex flex-col items-center justify-center gap-10 bg-dark px-8 py-28 md:px-16  lg:flex-row halfxl:flex-row halfxl:gap-0">
 					<div className="flex w-full flex-col items-center justify-center gap-10 px-0 sm:px-6 md:w-2/3 halfxl:w-full">
 						<p className="w-full text-center font-press text-lime sm:text-left">
-							LET&apos;S LEARN HOW TO
+							LET&apos;S LEARN HOW TO to
 						</p>
 						<div className="flex flex-col gap-8 font-press text-3xl sm:text-4xl halfxl:text-5xl">
 							<div className="flex flex-col items-center justify-center gap-8 sm:flex-row sm:justify-normal">
