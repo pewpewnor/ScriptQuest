@@ -1,6 +1,6 @@
 import Navbar from "@/components/navbar/Navbar";
-import { FC } from "react";
 import Image from "next/image";
+import { FC } from "react";
 
 interface HowToUseProps {}
 
@@ -39,9 +39,7 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 							</div>
 							<div className="flex flex-col items-center justify-center font-press text-clay md:flex-row">
 								<div className="p-5 text-center md:mr-20 md:text-left">
-									<h2 className="my-10 text-3xl">
-										gamelist
-									</h2>
+									<h2 className="my-10 text-3xl">gamelist</h2>
 									<p className="">
 										list of created game will be shown
 										bellow. click{" "}
