@@ -4,7 +4,7 @@ import { ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
 import { ChangeEvent, Dispatch, FC, KeyboardEvent, useState } from "react";
 import { AiFillSave, AiOutlineDownload } from "react-icons/ai";
-import { BsPlayFill } from "react-icons/bs";
+import { BsFillSquareFill, BsPlayFill } from "react-icons/bs";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import Output from "./Output";
 
@@ -126,13 +126,23 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 						Save & exit
 						<AiFillSave className="fill-clay group-hover:fill-electric" />
 					</button>
-					<button
-						className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
-						onClick={handlePlayClicked}
-					>
-						PLAY
-						<BsPlayFill className="h-5 w-5 fill-slate-900 " />
-					</button>
+					{isPlaying ? (
+						<button
+							className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
+							onClick={handlePlayClicked}
+						>
+							PLAY
+							<BsPlayFill className="h-5 w-5 fill-slate-900 " />
+						</button>
+					) : (
+						<button
+							className="group flex items-center justify-center gap-1 rounded-lg bg-red-500 px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
+							onClick={handlePlayClicked}
+						>
+							STOP
+							<BsFillSquareFill className="h-4 w-4 fill-slate-900 " />
+						</button>
+					)}
 				</div>
 
 				{/* Code Editor */}
