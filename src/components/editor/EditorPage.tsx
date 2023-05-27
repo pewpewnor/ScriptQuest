@@ -35,6 +35,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 
 	const [showRename, setShowRename] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [hideButton, setHideButton] = useState(true);
 
 	function handleCodeChange(event: ChangeEvent<HTMLTextAreaElement>) {
 		const input = event.target.value;
@@ -88,10 +89,10 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 	const errors = detectError(code);
 
 	return (
-		<div className="paper-grid flex">
+		<div className="paper-grid flex flex-col md:flex-row">
 			{/* Navbar */}
-			<div className="flex w-4/6 flex-col">
-				<div className="absolute top-0 flex w-4/6 items-center justify-around gap-14 bg-black px-10 text-center font-vt text-2xl text-clay sm:h-16 sm:px-10 sm:text-left">
+			<div className="flex flex-col md:w-4/6">
+				<div className="absolute top-0 flex w-full items-center justify-around gap-14 bg-black px-10 text-center font-vt text-2xl text-clay sm:h-16 sm:px-10 sm:text-left md:w-4/6">
 					<h1 className="group flex items-center justify-center gap-2 rounded-lg p-2 font-press text-lg text-clay">
 						{showRename ? (
 							<input
@@ -112,41 +113,47 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 							className="h-6 w-6 cursor-pointer fill-clay group-hover:fill-electric"
 							onClick={() => {
 								setShowRename((prev) => !prev);
+								setHideButton(!hideButton);
 							}}
 						/>
 					</h1>
-					<button className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric">
-						Export
-						<AiOutlineDownload className="fill-clay group-hover:fill-electric" />
-					</button>
-					<button
-						className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric"
-						onClick={handleCloseAndSave}
-					>
-						Save & exit
-						<AiFillSave className="fill-clay group-hover:fill-electric" />
-					</button>
-					{isPlaying ? (
-						<button
-							className="group flex items-center justify-center gap-1 rounded-lg bg-red-500 px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
-							onClick={handlePlayClicked}
-						>
-							STOP
-							<BsFillSquareFill className="h-4 w-4 fill-slate-900 " />
-						</button>
-					) : (
-						<button
-							className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
-							onClick={handlePlayClicked}
-						>
-							PLAY
-							<BsPlayFill className="h-5 w-5 fill-slate-900 " />
-						</button>
+
+					{hideButton && (
+						<div className="flex flex-row gap-10 md:gap-20">
+							<button className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric">
+								Export
+								<AiOutlineDownload className="fill-clay group-hover:fill-electric" />
+							</button>
+							<button
+								className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric"
+								onClick={handleCloseAndSave}
+							>
+								exit
+								<AiFillSave className="fill-clay group-hover:fill-electric" />
+							</button>
+							{isPlaying ? (
+								<button
+									className="group flex items-center justify-center gap-1 rounded-lg bg-red-500 px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
+									onClick={handlePlayClicked}
+								>
+									STOP
+									<BsFillSquareFill className="h-4 w-4 fill-slate-900 " />
+								</button>
+							) : (
+								<button
+									className="group flex items-center justify-center gap-1 rounded-lg bg-lime px-2 font-vt text-2xl font-bold text-slate-900 hover:bg-electric"
+									onClick={handlePlayClicked}
+								>
+									PLAY
+									<BsPlayFill className="h-5 w-5 fill-slate-900 " />
+								</button>
+							)}
+						</div>
 					)}
 				</div>
 
 				{/* Code Editor */}
-				<div className="min-h-screen w-full bg-black bg-opacity-10 pt-16">
+				<div className="w-full bg-black bg-opacity-10 pt-16 md:min-h-screen">
 					<div className="flex h-full overflow-x-auto">
 						<div className="">
 							{code.split("\n").map((_, index) => (
@@ -172,7 +179,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 
 			{/* Output */}
 
-			<div className="relative h-screen w-2/6 overflow-y-auto border-2 border-electric bg-slate-900 p-4 text-left">
+			<div className="h-60 w-full overflow-y-auto  border-2 border-electric bg-slate-900 p-4 text-left md:relative md:h-screen md:w-2/6">
 				{errors.length ? (
 					<pre className="font-mono text-lg text-red-500">
 						{errors.join("\n\n")}
