@@ -8,9 +8,15 @@ enum CommandType {
 	END,
 }
 
+enum Visibility {
+	TRUE,
+	FALSE,
+	DONE,
+}
+
 interface Line {
 	commandType: CommandType;
-	visible: boolean;
+	visible: Visibility;
 	say?: string;
 	variable?: string;
 }
@@ -23,33 +29,33 @@ function parseLine(line: string): Line {
 		const rest = tokens.slice(1, tokens.length);
 		return {
 			commandType: CommandType.SAY,
-			visible: false,
+			visible: Visibility.FALSE,
 			say: rest.join(" ") + "\n",
 		};
 	} else if (first === "read") {
 		const second = tokens[1];
 		return {
 			commandType: CommandType.READ,
-			visible: false,
+			visible: Visibility.FALSE,
 			variable: second,
 		};
 	} else if (first === "pause") {
 		return {
 			commandType: CommandType.PAUSE,
-			visible: false,
+			visible: Visibility.FALSE,
 		};
 	} else if (first === "exit") {
 		return {
 			commandType: CommandType.EXIT,
-			visible: false,
+			visible: Visibility.FALSE,
 		};
 	} else {
 		return {
 			commandType: CommandType.NOTHING,
-			visible: false,
+			visible: Visibility.FALSE,
 		};
 	}
 }
 
-export { parseLine, CommandType };
+export { parseLine, CommandType, Visibility };
 export type { Line };
