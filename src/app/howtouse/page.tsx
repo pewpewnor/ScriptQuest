@@ -73,6 +73,70 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 									alt="hero"
 								/>
 							</div>
+							{/* container */}
+							<div className="flex flex-col">
+								<h1 className="my-20 text-center font-press text-5xl text-clay">
+									command
+								</h1>
+								{/* subcontainer 1 */}
+								<div className="flex flex-col gap-20 font-press text-clay md:flex-row">
+									<div className="flex flex-col md:items-left md:justify-left items-center justify-center">
+										<h2 className="mb-10 text-3xl text-center md:text-left">say</h2>
+										<p className="text-center">
+											sending <span className="text-lime">output</span> to the screen
+										</p>
+										<Image
+											src="/samplesay.png"
+											className="mt-5 rounded-xl border-2 shadow-lg duration-200 ease-in hover:scale-105 hover:cursor-pointer hover:border-lime"
+											width={500}
+											height={500}
+											alt="hero"
+										/>
+									</div>
+									<div className="flex flex-col md:items-left justify-left items-center justify-center">
+										<h2 className="mb-10 text-3xl text-center md:text-left">read</h2>
+										<p className="text-center">
+											taking <span className="text-lime">input</span> from user to system
+										</p>
+										<Image
+											src="/sampleread.png"
+											className="mt-5 rounded-xl border-2 shadow-lg duration-200 ease-in hover:scale-105 hover:cursor-pointer hover:border-lime"
+											width={500}
+											height={500}
+											alt="hero"
+										/>
+									</div>
+								</div>
+								{/* subcontainer 2 */}
+								<div className="flex flex-col gap-20 font-press text-clay md:flex-row mt-20">
+									<div className="flex flex-col md:items-left md:justify-left items-center justify-center">
+										<h2 className="mb-10 text-3xl text-center md:text-left">if</h2>
+										<p className="text-center">
+										<span className="text-lime">evaluating</span> expressions from user inputed
+										</p>
+										<Image
+											src="/sampleif.png"
+											className="mt-5 rounded-xl border-2 shadow-lg duration-200 ease-in hover:scale-105 hover:cursor-pointer hover:border-lime"
+											width={500}
+											height={500}
+											alt="hero"
+										/>
+									</div>
+									<div className="flex flex-col md:items-left justify-left items-center justify-center">
+										<h2 className="mb-10 text-3xl text-center md:text-left">pause</h2>
+										<p className="text-center">
+											stopping a command until user press <span className="text-lime">enter</span>
+										</p>
+										<Image
+											src="/samplepause.png"
+											className="mt-5 rounded-xl border-2 shadow-lg duration-200 ease-in hover:scale-105 hover:cursor-pointer hover:border-lime"
+											width={500}
+											height={500}
+											alt="hero"
+										/>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -35,7 +35,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 						</div>
 					</div>
 					<Image
-						src="/hero-image.png"
+						src="/mainpageimage.png"
 						className="rounded-xl border-2 shadow-lg duration-200 ease-in hover:scale-105 hover:cursor-pointer hover:border-lime"
 						width={600}
 						height={600}
@@ -76,10 +76,10 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 						</div>
 						<div className="flex flex-col items-center justify-center p-5 md:flex-row">
 							<Image
-								src="/profile.jpg"
+								src="/steven_profile.jpg"
 								className="w-40 rounded-full border-2"
-								width={600}
-								height={600}
+								width={500}
+								height={500}
 								alt="profile"
 							/>
 							<div className="items-center justify-center md:ml-10">
@@ -87,9 +87,12 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 									Steven
 								</h2>
 								<p className="text-center font-press text-xl text-clay md:pt-0 md:text-left">
-									Lorem ipsum dolor sit amet consectetur
-									adipisicing elit. Iste sapiente aut porro in
-									officiis ullam odit.
+									i joining this project because of the
+									concept. since i haven't seen any project
+									like this and i like to know more about this
+									concept further. we hope this website can
+									inspired you to know more, and make you more
+									experienced about programming.
 								</p>
 							</div>
 						</div>
