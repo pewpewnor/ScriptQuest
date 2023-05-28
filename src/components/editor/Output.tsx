@@ -55,9 +55,9 @@ function moveOutputForward(
 		} else if (line.commandType === CommandType.IF && line.variable) {
 			line.visible = Visibility.FALSE;
 			if (
-				variables[line.variable] ===
+				variables[line.variable].toLowerCase() ===
 				(line.compareTo
-					? getReplacedString(line.compareTo, variables)
+					? getReplacedString(line.compareTo, variables).toLowerCase()
 					: line.compareTo)
 			) {
 				trueIfs.push(line.ifId ? line.ifId : -1);
