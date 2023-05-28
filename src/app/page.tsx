@@ -83,7 +83,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 								alt="profile"
 							/>
 							<div className="items-center justify-center md:ml-10">
-								<h2 className="my-5 text-center font-press text-3xl text-clay text-lime md:my-0 md:mb-5 md:text-left">
+								<h2 className="my-5 text-center font-press text-3xl text-lime md:my-0 md:mb-5 md:text-left">
 									Steven
 								</h2>
 								<p className="text-center font-press text-xl text-clay md:pt-0 md:text-left">
