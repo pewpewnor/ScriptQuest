@@ -12,6 +12,18 @@ function replaceAll(string: string, substring: string, replacement: string) {
 	return string.replace(regex, replacement);
 }
 
+function getReplacedString(
+	string: string,
+	variables: { [key: string]: string }
+) {
+	let replacedString = string;
+	for (const key in variables) {
+		const value = variables[key];
+		replacedString = replaceAll(replacedString, "[" + key + "]", value);
+	}
+	return replacedString;
+}
+
 function moveOutputForward(
 	index: number,
 	lines: Line[],
@@ -42,7 +54,12 @@ function moveOutputForward(
 			}
 		} else if (line.commandType === CommandType.IF && line.variable) {
 			line.visible = Visibility.FALSE;
-			if (variables[line.variable] === line.compareTo) {
+			if (
+				variables[line.variable] ===
+				(line.compareTo
+					? getReplacedString(line.compareTo, variables)
+					: line.compareTo)
+			) {
 				trueIfs.push(line.ifId ? line.ifId : -1);
 			}
 		} else if (line.commandType === CommandType.END) {
@@ -107,19 +124,8 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 		switch (line.commandType) {
 			case CommandType.SAY:
 				if (line.say) {
-					let replacedSay = line.say;
-					for (const key in variables) {
-						// @ts-expect-error
-						const value = variables[key];
-						replacedSay = replaceAll(
-							replacedSay,
-							"[" + key + "]",
-							value
-						);
-					}
-					return replacedSay;
+					return getReplacedString(line.say, variables);
 				}
-				return "";
 			case CommandType.PAUSE:
 				if (line.visible === Visibility.DONE) {
 					return (
