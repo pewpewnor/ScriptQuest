@@ -101,8 +101,8 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 	return (
 		<div className="paper-grid flex flex-col md:flex-row">
 			{/* Navbar */}
-			<div className="flex flex-col md:w-4/6">
-				<div className="absolute top-0 flex w-full items-center justify-around gap-14 bg-black px-10 text-center font-vt text-2xl text-clay sm:h-16 sm:px-10 sm:text-left md:w-4/6">
+			<div className="flex flex-col md:w-3/5">
+				<div className="absolute top-0 flex w-full items-center justify-around gap-14 bg-black px-10 text-center font-vt text-2xl text-clay sm:h-16 sm:px-10 sm:text-left md:w-3/5">
 					<h1 className="group flex items-center justify-center gap-2 rounded-lg p-2 font-press text-lg text-clay">
 						{showRename ? (
 							<input
@@ -192,7 +192,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 
 			{/* Output */}
 
-			<div className="fixed right-0 top-0 h-60 w-full overflow-y-auto  border-2 border-electric bg-slate-900 p-4 text-left md:h-screen md:w-2/6">
+			<div className="fixed right-0 top-0 h-60 w-full overflow-y-auto  border-2 border-electric bg-slate-900 p-4 text-left md:h-screen md:w-2/5">
 				{errors.length ? (
 					<pre className="font-mono text-lg text-red-500">
 						{errors.join("\n\n")}
