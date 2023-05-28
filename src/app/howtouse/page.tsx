@@ -74,13 +74,13 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 								/>
 							</div>
 							{/* container */}
-							<div className="flex flex-col bg-black">
+							<div className="flex flex-col">
 								<h1 className="my-20 text-center font-press text-5xl text-clay">
 									command
 								</h1>
 								{/* subcontainer 1 */}
-								<div className="flex flex-col gap-20 font-press text-clay md:flex-row">
-									<div className="md:items-left md:justify-left flex flex-col items-center justify-center">
+								<div className="flex flex-col gap-20 font-press text-clay lg:flex-row items-center justify-center">
+									<div className="md:items-left md:justify-left flex flex-col items-center justify-center lg:w-2/5">
 										<h2 className="mb-10 text-center text-3xl md:text-left">
 											say
 										</h2>
@@ -89,7 +89,7 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 											<span className="text-lime">
 												output
 											</span>{" "}
-											to the screen
+											to the screen that user typed
 										</p>
 										<Image
 											src="/samplesay.png"
@@ -99,7 +99,7 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 											alt="hero"
 										/>
 									</div>
-									<div className="md:items-left justify-left flex flex-col items-center justify-center">
+									<div className="md:items-left justify-left flex flex-col items-center justify-center lg:w-2/5">
 										<h2 className="mb-10 text-center text-3xl md:text-left">
 											read
 										</h2>
@@ -108,7 +108,7 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 											<span className="text-lime">
 												input
 											</span>{" "}
-											from user to system
+											from user typed to system
 										</p>
 										<Image
 											src="/sampleread.png"
@@ -120,8 +120,8 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 									</div>
 								</div>
 								{/* subcontainer 2 */}
-								<div className="mt-20 flex flex-col gap-20 font-press text-clay md:flex-row">
-									<div className="md:items-left md:justify-left flex flex-col items-center justify-center">
+								<div className="flex flex-col gap-20 font-press text-clay lg:flex-row items-center justify-center mt-20">
+									<div className="md:items-left md:justify-left flex flex-col items-center justify-center lg:w-2/5">
 										<h2 className="mb-10 text-center text-3xl md:text-left">
 											if
 										</h2>
@@ -139,7 +139,7 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 											alt="hero"
 										/>
 									</div>
-									<div className="md:items-left justify-left flex flex-col items-center justify-center">
+									<div className="md:items-left justify-left flex flex-col items-center justify-center lg:w-2/5">
 										<h2 className="mb-10 text-center text-3xl md:text-left">
 											pause
 										</h2>
