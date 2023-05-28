@@ -108,7 +108,14 @@ function detectError(code: string) {
 			}
 
 			if (first === "read") {
-				reads.push(tokens[1]);
+				const variable = tokens[1];
+				if (reads.includes(variable)) {
+					addErrorDirectly(
+						`\tThere is already read varible '${tokens[1]}'\n\t\tYour read variable must be unique`
+					);
+				} else {
+					reads.push(tokens[1]);
+				}
 			}
 		} else if (tokensLength === 1) {
 			if (first !== "pause" && first !== "exit" && first !== "end") {
