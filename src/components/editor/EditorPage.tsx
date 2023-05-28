@@ -191,7 +191,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 						stopPlaying={() => setIsPlaying(false)}
 					/>
 				) : (
-					<h1 className="text-center font-vt text-3xl text-clay">
+					<h1 className="mt-4 text-center font-vt text-3xl text-clay">
 						Click play to start the game
 					</h1>
 				)}
