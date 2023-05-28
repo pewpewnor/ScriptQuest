@@ -1,7 +1,7 @@
 import {
 	CommandType,
 	Line,
-	parseLine,
+	parseLines,
 	Visibility,
 } from "@/interpreter/parse-code";
 import { ChangeEvent, FC, KeyboardEventHandler, useState } from "react";
@@ -12,8 +12,23 @@ function replaceAll(string: string, substring: string, replacement: string) {
 	return string.replace(regex, replacement);
 }
 
-function moveOutputForward(lines: Line[]) {
-	for (const line of lines) {
+function moveOutputForward(
+	index: number,
+	lines: Line[],
+	variables: { [key: string]: string }
+) {
+	const trueIfs: number[] = [];
+
+	for (let i = index; i < lines.length; i++) {
+		const line = lines[i];
+
+		console.log(trueIfs);
+
+		if (!line.ifStack.every((ifId) => trueIfs.includes(ifId))) {
+			line.visible = Visibility.FALSE;
+			continue;
+		}
+
 		if (
 			line.commandType === CommandType.PAUSE ||
 			line.commandType === CommandType.READ ||
@@ -24,10 +39,17 @@ function moveOutputForward(lines: Line[]) {
 				break;
 			} else {
 				line.visible = Visibility.DONE;
-				continue;
 			}
+		} else if (line.commandType === CommandType.IF && line.variable) {
+			line.visible = Visibility.FALSE;
+			if (variables[line.variable] === line.compareTo) {
+				trueIfs.push(line.ifId ? line.ifId : -1);
+			}
+		} else if (line.commandType === CommandType.END) {
+			line.visible = Visibility.FALSE;
+		} else {
+			line.visible = Visibility.TRUE;
 		}
-		line.visible = Visibility.TRUE;
 	}
 	return lines;
 }
@@ -39,13 +61,15 @@ interface OutputProps {
 }
 
 const Output: FC<OutputProps> = (props: OutputProps) => {
-	const [lines, setLines] = useState<Line[]>(
-		moveOutputForward(props.code.split("\n").map((line) => parseLine(line)))
-	);
-
 	const [variables, setVariables] = useState({});
 	const [inputHistory, setInputHistory] = useState<string[]>([]);
 	const [input, setInput] = useState<string>("");
+
+	const [lines, setLines] = useState<Line[]>(
+		moveOutputForward(0, parseLines(props.code.split("\n")), variables)
+	);
+
+	console.log(lines);
 
 	function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
 		setInput(event.target.value);
@@ -57,7 +81,7 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
 
-			setLines((prev) => moveOutputForward(prev));
+			setLines((prev) => moveOutputForward(0, prev, variables));
 
 			setInputHistory((prev) => [...prev, input]);
 			setInput("");
@@ -156,12 +180,20 @@ const Output: FC<OutputProps> = (props: OutputProps) => {
 					if (event.key === "Enter") {
 						event.preventDefault();
 
-						setLines((prev) => moveOutputForward(prev));
-
 						setVariables((prev) => ({
 							...prev,
 							[line.variable ? line.variable : ""]: input,
 						}));
+
+						// This must be done due to variables won't be updated immidiately
+						const newVariables = {
+							...variables,
+							[line.variable ? line.variable : ""]: input,
+						};
+
+						setLines((prev) =>
+							moveOutputForward(0, prev, newVariables)
+						);
 
 						setInputHistory((prev) => [...prev, input]);
 						setInput("");
