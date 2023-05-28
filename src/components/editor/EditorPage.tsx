@@ -2,6 +2,7 @@
 import detectError from "@/interpreter/syntax-validation";
 import { ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
+import { saveAs } from "file-saver";
 import { ChangeEvent, Dispatch, FC, KeyboardEvent, useState } from "react";
 import { AiFillSave, AiOutlineDownload } from "react-icons/ai";
 import { BsFillSquareFill, BsPlayFill } from "react-icons/bs";
@@ -22,6 +23,11 @@ function exceedMaxCharactersPerLine(lines: string[]) {
 		}
 	}
 	return false;
+}
+
+function downloadTextFile(text: string, fileName: string) {
+	const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+	saveAs(blob, fileName);
 }
 
 interface EditorPageProps extends ScriptData {
@@ -86,6 +92,10 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 		setIsPlaying((prev) => !prev);
 	}
 
+	function handleExportClicked() {
+		downloadTextFile(code, title + ".scriptquest");
+	}
+
 	const errors = detectError(code);
 
 	return (
@@ -120,7 +130,10 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 
 					{hideButton && (
 						<div className="flex flex-row gap-10 md:gap-20">
-							<button className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric">
+							<button
+								className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric"
+								onClick={handleExportClicked}
+							>
 								Export
 								<AiOutlineDownload className="fill-clay group-hover:fill-electric" />
 							</button>
