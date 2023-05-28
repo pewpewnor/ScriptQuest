@@ -1,12 +1,15 @@
 {
 	"name": "scriptquest",
 	"version": "0.1.0",
+	"homepage": "https://pewpewnor.github.io/ScriptQuest",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build"
 	},
 	"dependencies": {
 		"@types/file-saver": "^2.0.5",
@@ -27,6 +30,7 @@
 	},
 	"devDependencies": {
 		"@total-typescript/ts-reset": "^0.4.2",
+		"gh-pages": "^5.0.0",
 		"nodemon": "^2.0.22",
 		"prettier": "^2.8.8",
 		"prettier-plugin-tailwindcss": "^0.3.0"
