@@ -42,6 +42,20 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 						alt="hero"
 					/>
 				</div>
+				<div className="paper-grid flex flex-col items-center justify-center gap-20 bg-dark px-8 py-14 md:px-16 halfxl:gap-0">
+					<h1 className="mb-20 text-center font-press text-5xl leading-normal text-clay md:mb-32">
+						DEMO & SHOWCASE
+					</h1>
+					<iframe
+						width="660"
+						height="355"
+						src="https://www.youtube.com/embed/990x61Lxqa8?autoplay=true"
+						title="YouTube video player"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowFullScreen
+						className="w-full rounded-xl md:w-full"
+					></iframe>
+				</div>
 				{/* Purpose */}
 				<div className="paper-grid flex flex-col items-center justify-center gap-20 bg-dark px-8 py-14 md:px-16 halfxl:gap-0">
 					<h1 className="mb-20 text-center font-press text-5xl leading-normal text-clay md:mb-40">
