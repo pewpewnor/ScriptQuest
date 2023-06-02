@@ -56,6 +56,7 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 									alt="hero"
 								/>
 							</div>
+							{/* TODO: separate  tutorial for coding and running */}
 							<div className="flex flex-col items-center justify-center font-press text-clay md:flex-row">
 								<div className="p-5 text-center md:mr-20 md:text-left">
 									<h2 className="my-10 text-3xl">creating</h2>
@@ -164,6 +165,7 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 											alt="hero"
 										/>
 									</div>
+									{/* TODO: add section for tutorial video */}
 								</div>
 							</div>
 						</div>
