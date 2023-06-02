@@ -88,15 +88,18 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 		}
 	}
 
-	function handlePlayClicked() {
-		setIsPlaying((prev) => !prev);
-	}
-
 	function handleExportClicked() {
 		downloadTextFile(code, title + ".scriptquest");
 	}
 
 	const errors = detectError(code);
+
+	// TODO: set name to run instead of play
+	function handlePlayClicked() {
+		if (!errors.length) {
+			setIsPlaying((prev) => !prev);
+		}
+	}
 
 	return (
 		<div className="paper-grid flex flex-col md:flex-row">
