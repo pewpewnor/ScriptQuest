@@ -22,11 +22,12 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 								<div className="p-5 text-center md:mr-20 md:text-left">
 									<h2 className="my-10 text-3xl">starting</h2>
 									<p className="">
-										fill the game title then click{" "}
+										fill in the game title, then click{" "}
 										<span className="text-lime">
 											create
 										</span>
-										. the game will shown in the box bellow.
+										. The new game should appear in the
+										section below it.
 									</p>
 								</div>
 								<Image
@@ -39,12 +40,12 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 							</div>
 							<div className="flex flex-col items-center justify-center font-press text-clay md:flex-row">
 								<div className="p-5 text-center md:mr-20 md:text-left">
-									<h2 className="my-10 text-3xl">gamelist</h2>
+									<h2 className="my-10 text-3xl">opening</h2>
 									<p className="">
-										list of created game will be shown
-										bellow. click{" "}
+										This is the list of created games. Click
+										the{" "}
 										<span className="text-lime">edit</span>{" "}
-										button from any project that you want.
+										button to open the editor for the game.
 									</p>
 								</div>
 								<Image
@@ -61,8 +62,10 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 									<p className="">
 										enter your{" "}
 										<span className="text-lime">code</span>{" "}
-										from left side, then the output will be
-										shown on the right side.
+										into the editor on the left side. If
+										there are no errors, click{" "}
+										<span className="text-lime">run</span>{" "}
+										to see the results.
 									</p>
 								</div>
 								<Image
@@ -79,17 +82,17 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 									command
 								</h1>
 								{/* subcontainer 1 */}
-								<div className="flex flex-col gap-20 font-press text-clay lg:flex-row items-center justify-center">
+								<div className="flex flex-col items-center justify-center gap-20 font-press text-clay lg:flex-row">
 									<div className="md:items-left md:justify-left flex flex-col items-center justify-center lg:w-2/5">
 										<h2 className="mb-10 text-center text-3xl md:text-left">
 											say
 										</h2>
 										<p className="text-center">
-											sending{" "}
 											<span className="text-lime">
-												output
+												display
 											</span>{" "}
-											to the screen that user typed
+											any text into the player&apos;s
+											screen
 										</p>
 										<Image
 											src="/samplesay.png"
@@ -104,11 +107,12 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 											read
 										</h2>
 										<p className="text-center">
-											taking{" "}
+											takes{" "}
 											<span className="text-lime">
 												input
 											</span>{" "}
-											from user typed to system
+											from what the player typed and
+											stores it into a variable
 										</p>
 										<Image
 											src="/sampleread.png"
@@ -120,16 +124,17 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 									</div>
 								</div>
 								{/* subcontainer 2 */}
-								<div className="flex flex-col gap-20 font-press text-clay lg:flex-row items-center justify-center mt-20">
+								<div className="mt-20 flex flex-col items-center justify-center gap-20 font-press text-clay lg:flex-row">
 									<div className="md:items-left md:justify-left flex flex-col items-center justify-center lg:w-2/5">
 										<h2 className="mb-10 text-center text-3xl md:text-left">
 											if
 										</h2>
 										<p className="text-center">
 											<span className="text-lime">
-												evaluating
+												decides
 											</span>{" "}
-											expressions from user inputed
+											what the code should do according to
+											the variable value
 										</p>
 										<Image
 											src="/sampleif.png"
@@ -144,10 +149,12 @@ const HowToUse: FC<HowToUseProps> = (props: HowToUseProps) => {
 											pause
 										</h2>
 										<p className="text-center">
-											stopping a command until user press{" "}
+											stops the code until the player
+											inputs the{" "}
 											<span className="text-lime">
 												enter
-											</span>
+											</span>{" "}
+											key
 										</p>
 										<Image
 											src="/samplepause.png"
