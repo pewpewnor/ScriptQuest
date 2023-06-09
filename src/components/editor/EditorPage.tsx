@@ -144,7 +144,7 @@ const EditorPage: FC<EditorPageProps> = (props: EditorPageProps) => {
 								className="group flex items-center gap-2 rounded-lg border-2 px-4 hover:border-electric hover:text-electric"
 								onClick={handleCloseAndSave}
 							>
-								exit
+								Exit
 								<AiFillSave className="fill-clay group-hover:fill-electric" />
 							</button>
 							{isPlaying ? (
