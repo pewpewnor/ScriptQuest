@@ -88,7 +88,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 								</p>
 							</div>
 						</div>
-						<div className="flex flex-col items-center justify-center p-5 md:flex-row">
+{/* 						<div className="flex flex-col items-center justify-center p-5 md:flex-row">
 							<Image
 								src="/steven_profile.jpg"
 								className="w-40 rounded-full border-2"
@@ -109,7 +109,7 @@ const WelcomePage: FC<WelcomePageProps> = (props: WelcomePageProps) => {
 									make you more experienced about programming.
 								</p>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>
