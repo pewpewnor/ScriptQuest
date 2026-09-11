@@ -5,7 +5,7 @@ import ScriptItem from "@/components/item/ScriptItem";
 import ScriptNavbar from "@/components/navbar/ScriptNavbar";
 import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
-import { ChangeEvent, FC, Reducer, useReducer, useState } from "react";
+import { ChangeEvent, FC, useReducer, useState } from "react";
 
 const MAX_TITLE_LENGTH = 30;
 
@@ -86,9 +86,7 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
         }
     }
 
-    const [scripts, dispatchScripts] = useReducer<
-        Reducer<ScriptData[], ScriptAction>
-    >(createScriptReducer, [
+    const [scripts, dispatchScripts] = useReducer(createScriptReducer, [
         {
             title: "sample game",
             code: EXAMPLE_CODE,

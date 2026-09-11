@@ -1,8 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+    --font-vt: "VT323";
+    --font-press: "Press Start 2P";
+    --color-lime: #d9f24f;
+    --color-electric: #4f26e9;
+    --color-dark: #222222;
+    --color-clay: #f2e8de;
+    --breakpoint-halfxl: 1475px;
+}
 
 .paper-grid {
     background-size: 200px 200px;
