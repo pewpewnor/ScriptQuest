@@ -1,168 +1,182 @@
-interface SyntaxResult {
-	error: string[];
+const PROPER_PAUSE =
+    "\tIncorrect syntax for 'pause' found\n" +
+    "\tExample of correct syntax for 'pause':\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+    "\t\tpause\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+const PROPER_EXIT =
+    "\tIncorrect syntax for 'exit' found\n" +
+    "\tExample of correct syntax for 'exit':\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+    "\t\texit\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+const PROPER_SAY =
+    "\tIncorrect syntax for 'say' found\n" +
+    "\tExample of correct syntax for 'say':\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+    "\t\tsay hello world\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+const PROPER_READ =
+    "\tIncorrect syntax for 'read' found\n" +
+    "\tExample of correct syntax for 'read':\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+    "\t\tread name\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+const PROPER_IF_SYNTAX =
+    "\tIncorrect syntax for 'if' found\n" +
+    "\tExample of correct syntax for 'if':\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+    "\t\tif choice is 1\n" +
+    "\t\t\tsay You just typed 1\n" +
+    "\t\tend\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+const PROPER_END =
+    "\tIncorrect syntax for 'end' found\n" +
+    "\tExample of correct syntax for 'end':\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+    "\t\tend\n" +
+    "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+
+interface OpenIf {
+    line: number;
 }
 
-const PROPER_PAUSE = `\tIncorrect syntax for 'pause' found\n\tExample of correct syntax for 'pause':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tpause\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
-const PROPER_EXIT = `\tIncorrect syntax for 'exit' found\n\tExample of correct syntax for 'exit':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\texit\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
-const PROPER_SAY = `\tIncorrect syntax for 'say' found\n\tExample of correct syntax for 'say':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tsay hello world\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
-const PROPER_READ = `\tIncorrect syntax for 'read' found\n\tExample of correct syntax for 'read':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tread name\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
-const PROPER_IF_SYNTAX = `\tIncorrect syntax for 'if' found\n\tExample of correct syntax for 'if':\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tif choice is 1\n\t\t\tsay You just typed 1\n\t\tend\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`;
-// const PROPER_CHECKPOINT = `Example of correct syntax for 'savepoint'\n\tcheckpoint alpha`;
-// const PROPER_GOTO = `Example of correct syntax for 'goto':\n\tgoto alpha`;
+function detectError(code: string): string[] {
+    const lines = code.split(/\r?\n/);
+    const errors: string[] = [];
+    const reads = new Set<string>();
+    const openIfs: OpenIf[] = [];
 
-function detectError(code: string) {
-	const lines = code.split("\n");
-	const errors: string[] = [];
-	let index = 0;
+    function addError(line: number, message: string) {
+        errors.push(
+            "Syntax error found at line " + (line + 1) + ".\n" + message
+        );
+    }
 
-	function addErrorDirectly(message: string) {
-		errors.push(`Syntax error found at line ${index + 1}.\n${message}`);
-	}
+    function pushError(line: number, cause: string) {
+        switch (cause) {
+            case "pause":
+                addError(line, PROPER_PAUSE);
+                break;
+            case "exit":
+                addError(line, PROPER_EXIT);
+                break;
+            case "say":
+                addError(line, PROPER_SAY);
+                break;
+            case "read":
+                addError(line, PROPER_READ);
+                break;
+            case "if":
+                addError(line, PROPER_IF_SYNTAX);
+                break;
+            case "end":
+                addError(line, PROPER_END);
+                break;
+            default:
+                addError(line, "\tKeyword '" + cause + "' is unrecognized");
+        }
+    }
 
-	function pushError(cause: string) {
-		switch (cause.toLowerCase()) {
-			case "pause":
-				addErrorDirectly(PROPER_PAUSE);
-				break;
-			case "exit":
-				addErrorDirectly(PROPER_EXIT);
-				break;
-			case "say":
-				addErrorDirectly(PROPER_SAY);
-				break;
-			case "read":
-				addErrorDirectly(PROPER_READ);
-				break;
-			case "if":
-				addErrorDirectly(PROPER_IF_SYNTAX);
-				break;
-			case "end":
-				addErrorDirectly(PROPER_IF_SYNTAX);
-				break;
-			// case "checkpoint":
-			// 	addErrorDirectly(PROPER_CHECKPOINT);
-			// 	break;
-			// case "goto":
-			// 	addErrorDirectly(PROPER_GOTO);
-			// 	break;
-			default:
-				addErrorDirectly(`\tKeyword '${cause}' is unrecognized`);
-				break;
-		}
-	}
+    for (let index = 0; index < lines.length; index++) {
+        const line = lines[index].trim();
 
-	const reads: string[] = [];
-	const takenEnd: number[] = [];
+        if (!line) {
+            continue;
+        }
 
-	function hasEnd() {
-		for (let i = index + 1; i < lines.length; i++) {
-			const line = lines[i].trim();
-			if (line === "end" && takenEnd.includes(i) === false) {
-				takenEnd.push(i);
-				return true;
-			}
-		}
-		return false;
-	}
+        const tokens = line.split(/\s+/);
+        const first = tokens[0];
 
-	for (index = 0; index < lines.length; index++) {
-		const line = lines[index].trim();
-		const tokens = line.split(" ");
-		const tokensLength = tokens.length;
+        switch (first) {
+            case "say":
+                if (tokens.length < 2) {
+                    pushError(index, first);
+                }
+                break;
 
-		if (tokensLength === 0 || (tokensLength === 1 && tokens[0] === ""))
-			continue;
+            case "read":
+                if (tokens.length !== 2) {
+                    pushError(index, first);
+                    break;
+                }
 
-		const first = tokens[0];
+                if (reads.has(tokens[1])) {
+                    addError(
+                        index,
+                        "\tThere is already read variable '" +
+                            tokens[1] +
+                            "'\n\t\tYour read variable must be unique"
+                    );
+                } else {
+                    reads.add(tokens[1]);
+                }
+                break;
 
-		if (tokensLength > 2) {
-			if (first !== "say" && first !== "if") {
-				pushError(first);
-			}
+            case "pause":
+            case "exit":
+                if (tokens.length !== 1) {
+                    pushError(index, first);
+                }
+                break;
 
-			if (first === "if") {
-				if (tokensLength < 4) {
-					pushError(first);
-					continue;
-				}
-				if (tokens[2] !== "is") {
-					pushError(first);
-					continue;
-				}
-				if (reads.includes(tokens[1]) === false) {
-					addErrorDirectly(
-						`\tYou first must read varible '${tokens[1]}'\n\t\tYou can do this by adding the code:\n\t\tread ${tokens[1]}`
-					);
-					continue;
-				}
-				if (!hasEnd()) {
-					addErrorDirectly(
-						`\tThere is no end for this if expression\n\t\Close it with the 'end' keyword, example:\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\t\tif choice is 1\n\t\t\tsay You just typed 1\n\t\tend\n\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-					);
-					continue;
-				}
-			}
-		} else if (tokensLength === 2) {
-			if (first !== "say" && first !== "read") {
-				pushError(first);
-			}
+            case "if":
+                if (tokens.length < 4 || tokens[2] !== "is") {
+                    pushError(index, first);
+                    break;
+                }
 
-			if (first === "read") {
-				const variable = tokens[1];
-				if (reads.includes(variable)) {
-					addErrorDirectly(
-						`\tThere is already read varible '${tokens[1]}'\n\t\tYour read variable must be unique`
-					);
-				} else {
-					reads.push(tokens[1]);
-				}
-			}
-		} else if (tokensLength === 1) {
-			if (first !== "pause" && first !== "exit" && first !== "end") {
-				pushError(first);
-			}
-			if (first === "end" && takenEnd.includes(index) === false) {
-				addErrorDirectly(
-					`\tNo if expression to close with 'end' mark\n\t\tYou can simply remove this`
-				);
-				continue;
-			}
-		}
-	}
+                // Keep a syntactically valid block on the stack even when its
+                // variable has not been declared. This prevents a missing-read
+                // error from also producing a misleading unmatched-end error.
+                openIfs.push({ line: index });
 
-	return errors;
+                if (!reads.has(tokens[1])) {
+                    addError(
+                        index,
+                        "\tYou first must read variable '" +
+                            tokens[1] +
+                            "'\n\t\tYou can do this by adding the code:\n\t\tread " +
+                            tokens[1]
+                    );
+                }
+                break;
+
+            case "end":
+                if (tokens.length !== 1) {
+                    pushError(index, first);
+                    break;
+                }
+
+                if (openIfs.length === 0) {
+                    addError(
+                        index,
+                        "\tNo if expression to close with 'end' mark\n\t\tYou can simply remove this"
+                    );
+                } else {
+                    openIfs.pop();
+                }
+                break;
+
+            default:
+                pushError(index, first);
+        }
+    }
+
+    for (const openIf of openIfs) {
+        addError(
+            openIf.line,
+            "\tThere is no end for this if expression\n" +
+                "\t\tClose it with the 'end' keyword, example:\n" +
+                "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                "\t\tif choice is 1\n" +
+                "\t\t\tsay You just typed 1\n" +
+                "\t\tend\n" +
+                "\t\t~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        );
+    }
+
+    return errors;
 }
 
 export default detectError;
-
-// const code = `
-// say You find yourself standing at the entrance of a mysterious temple hidden deep within the dense jungle.
-// say Legend has it that the temple holds a powerful artifact capable of granting immense knowledge and wisdom.
-// say As an adventurer seeking glory and answers, you step forward, ready to embark on a thrilling quest.
-
-// say You enter the temple and are greeted by an eerie silence.
-// say The air is heavy with anticipation. Before you lies a long corridor, its walls adorned with ancient hieroglyphics.
-// say To the left, a set of rusted iron doors beckons, while to the right, a dimly lit staircase leads downward.
-
-// pause
-
-// say What do you do?
-
-// pause
-
-// read a
-// if a is a
-// 	say "hey"
-// 	say "yos"
-
-// 	if a is a
-// 	end
-// end
-
-// exit
-
-// `;
-
-// const res = detectError(code);
-
-// console.log(res);

@@ -1,11 +1,11 @@
 interface ScriptData {
-	title: string;
-	code: string;
+    title: string;
+    code: string;
 }
 
 const DEFAULT_SCRIPTDATA_VALUE = {
-	title: "",
-	code: "",
+    title: "",
+    code: "",
 };
 
 export type { ScriptData };

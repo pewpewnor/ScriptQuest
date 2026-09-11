@@ -1,98 +1,114 @@
 enum CommandType {
-	NOTHING,
-	SAY,
-	READ,
-	PAUSE,
-	EXIT,
-	IF,
-	END,
+    NOTHING,
+    SAY,
+    READ,
+    PAUSE,
+    EXIT,
+    IF,
+    END,
 }
 
 enum Visibility {
-	FALSE,
-	TRUE,
-	DONE,
+    FALSE,
+    TRUE,
+    DONE,
 }
 
 interface Line {
-	commandType: CommandType;
-	visible: Visibility;
-	ifStack: number[];
-	ifId?: number;
-	say?: string;
-	variable?: string;
-	compareTo?: string;
+    commandType: CommandType;
+    visible: Visibility;
+    ifStack: number[];
+    ifId?: number;
+    say?: string;
+    variable?: string;
+    compareTo?: string;
 }
 
 function parseLine(index: number, ifStack: number[], line: string): Line {
-	const tokens = line.trim().split(" ");
-	const first = tokens[0];
+    const trimmedLine = line.trim();
+    const tokens = trimmedLine ? trimmedLine.split(/\s+/) : [];
+    const first = tokens[0];
+    const currentIfStack = [...ifStack];
 
-	if (first === "say") {
-		const say = tokens.slice(1, tokens.length).join(" ") + "\n";
+    if (first === "say") {
+        const say = trimmedLine.slice(first.length).replace(/^\s+/, "") + "\n";
 
-		return {
-			commandType: CommandType.SAY,
-			visible: Visibility.FALSE,
-			ifStack: [...ifStack],
-			say: say,
-		};
-	} else if (first === "read") {
-		const variable = tokens[1];
+        return {
+            commandType: CommandType.SAY,
+            visible: Visibility.FALSE,
+            ifStack: currentIfStack,
+            say,
+        };
+    }
 
-		return {
-			commandType: CommandType.READ,
-			visible: Visibility.FALSE,
-			ifStack: [...ifStack],
-			variable: variable,
-		};
-	} else if (first === "pause") {
-		return {
-			commandType: CommandType.PAUSE,
-			visible: Visibility.FALSE,
-			ifStack: [...ifStack],
-		};
-	} else if (first === "exit") {
-		return {
-			commandType: CommandType.EXIT,
-			visible: Visibility.FALSE,
-			ifStack: [...ifStack],
-		};
-	} else if (first === "if") {
-		const variable = tokens[1];
-		const compareTo = tokens.slice(3, tokens.length).join(" ");
+    if (first === "read") {
+        return {
+            commandType: CommandType.READ,
+            visible: Visibility.FALSE,
+            ifStack: currentIfStack,
+            variable: tokens[1],
+        };
+    }
 
-		const oldIfStack = [...ifStack];
-		ifStack.push(index);
-		return {
-			commandType: CommandType.IF,
-			visible: Visibility.FALSE,
-			ifStack: [...oldIfStack],
-			ifId: index,
-			variable: variable,
-			compareTo: compareTo,
-		};
-	} else if (first === "end") {
-		const lastIf = ifStack.pop();
-		return {
-			commandType: CommandType.END,
-			visible: Visibility.FALSE,
-			ifStack: [...ifStack],
-			ifId: lastIf,
-		};
-	} else {
-		return {
-			commandType: CommandType.NOTHING,
-			visible: Visibility.FALSE,
-			ifStack: [...ifStack],
-		};
-	}
+    if (first === "pause") {
+        return {
+            commandType: CommandType.PAUSE,
+            visible: Visibility.FALSE,
+            ifStack: currentIfStack,
+        };
+    }
+
+    if (first === "exit") {
+        return {
+            commandType: CommandType.EXIT,
+            visible: Visibility.FALSE,
+            ifStack: currentIfStack,
+        };
+    }
+
+    if (first === "if") {
+        return {
+            commandType: CommandType.IF,
+            visible: Visibility.FALSE,
+            ifStack: currentIfStack,
+            ifId: index,
+            variable: tokens[1],
+            compareTo: tokens.slice(3).join(" "),
+        };
+    }
+
+    if (first === "end") {
+        const ifId = ifStack[ifStack.length - 1];
+
+        return {
+            commandType: CommandType.END,
+            visible: Visibility.FALSE,
+            ifStack: ifStack.slice(0, -1),
+            ifId,
+        };
+    }
+
+    return {
+        commandType: CommandType.NOTHING,
+        visible: Visibility.FALSE,
+        ifStack: currentIfStack,
+    };
 }
 
-function parseLines(lines: string[]) {
-	const ifStack: number[] = [];
+function parseLines(lines: string[]): Line[] {
+    const ifStack: number[] = [];
 
-	return lines.map((line, index) => parseLine(index, ifStack, line));
+    return lines.map((line, index) => {
+        const parsedLine = parseLine(index, ifStack, line);
+
+        if (parsedLine.commandType === CommandType.IF) {
+            ifStack.push(index);
+        } else if (parsedLine.commandType === CommandType.END) {
+            ifStack.pop();
+        }
+
+        return parsedLine;
+    });
 }
 
 export { parseLines, CommandType, Visibility };
