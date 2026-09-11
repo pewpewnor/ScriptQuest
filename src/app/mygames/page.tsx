@@ -1,13 +1,14 @@
 "use client";
 import EditorPage from "@/components/editor/EditorPage";
-import { EXAMPLE_CODE } from "@/interpreter/example-program";
 import ScriptItem from "@/components/item/ScriptItem";
 import ScriptNavbar from "@/components/navbar/ScriptNavbar";
 import { DEFAULT_SCRIPTDATA_VALUE, ScriptData } from "@/types/script-type";
 import { ScriptAction, ScriptActionType } from "@/types/scriptaction-type";
-import { ChangeEvent, FC, useReducer, useState } from "react";
+import { ChangeEvent, FC, useEffect, useReducer, useState } from "react";
 
 const MAX_TITLE_LENGTH = 30;
+const SAMPLE_GAME_TITLE = "sample game";
+const SAMPLE_GAME_URL = "/sample-game.txt";
 
 interface MyScriptsProps {}
 
@@ -45,10 +46,10 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
                 return scripts.map((script) =>
                     script.title === action.payload.title
                         ? {
-                                ...script,
-                                title: action.payload.newTitle
-                                    ? action.payload.newTitle
-                                    : script.title,
+                              ...script,
+                              title: action.payload.newTitle
+                                  ? action.payload.newTitle
+                                  : script.title,
                           }
                         : script
                 );
@@ -86,15 +87,60 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
         }
     }
 
-    const [scripts, dispatchScripts] = useReducer(createScriptReducer, [
-        {
-            title: "sample game",
-            code: EXAMPLE_CODE,
-        },
-    ]);
+    const [scripts, dispatchScripts] = useReducer(createScriptReducer, []);
+    const [isSampleLoading, setIsSampleLoading] = useState(true);
+    const [sampleLoadError, setSampleLoadError] = useState<string | null>(null);
     const [createScriptData, setCreateScriptData] = useState<ScriptData>(
         DEFAULT_SCRIPTDATA_VALUE
     );
+
+    useEffect(() => {
+        let isCancelled = false;
+
+        async function loadSampleGame() {
+            try {
+                const response = await fetch(SAMPLE_GAME_URL);
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Sample game request failed with status ${response.status}`
+                    );
+                }
+
+                const code = await response.text();
+
+                if (isCancelled) {
+                    return;
+                }
+
+                dispatchScripts({
+                    type: ScriptActionType.ADD,
+                    payload: {
+                        newScript: {
+                            title: SAMPLE_GAME_TITLE,
+                            code,
+                        },
+                    },
+                });
+            } catch {
+                if (!isCancelled) {
+                    setSampleLoadError(
+                        "The sample game could not be loaded. You can still create a new game."
+                    );
+                }
+            } finally {
+                if (!isCancelled) {
+                    setIsSampleLoading(false);
+                }
+            }
+        }
+
+        void loadSampleGame();
+
+        return () => {
+            isCancelled = true;
+        };
+    }, []);
 
     function handleCreateScript() {
         if (createScriptData.title.length > MAX_TITLE_LENGTH) {
@@ -149,6 +195,16 @@ const MyScripts: FC<MyScriptsProps> = (props: MyScriptsProps) => {
                     <h1 className="text-center font-vt text-4xl text-clay">
                         Create a new game to begin!
                     </h1>
+                    {isSampleLoading && (
+                        <p className="text-center font-vt text-2xl text-clay">
+                            Loading sample game...
+                        </p>
+                    )}
+                    {sampleLoadError && (
+                        <p className="text-center font-vt text-2xl text-red-500">
+                            {sampleLoadError}
+                        </p>
+                    )}
                     <div className="flex flex-col items-center justify-center gap-x-4 gap-y-8 sm:flex-row sm:gap-10">
                         <input
                             type="text"
